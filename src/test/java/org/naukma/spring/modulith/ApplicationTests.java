@@ -22,7 +22,7 @@ class ApplicationTests {
     void writeDocumentationSnippets() {
         var modules = ApplicationModules.of(Application.class).verify();
 
-        new Documenter(modules)
+        new Documenter(modules, "documentation")
                 .writeModulesAsPlantUml()
                 .writeIndividualModulesAsPlantUml().writeAggregatingDocument();
     }
