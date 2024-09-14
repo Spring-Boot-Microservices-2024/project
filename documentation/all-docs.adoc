@@ -4,6 +4,15 @@ plantuml::components.puml[]
 == Notification
 plantuml::module-notification.puml[]
 
-== Order
-plantuml::module-order.puml[]
+== Booking
+plantuml::module-booking.puml[]
+
+== Review
+plantuml::module-review.puml[]
+
+== Event
+plantuml::module-event.puml[]
+
+== User
+plantuml::module-user.puml[]
 
