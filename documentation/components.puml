@@ -9,6 +9,7 @@ top to bottom direction
 !include <C4/C4_Component>
 
 Container_Boundary("Application.Application_boundary", "Application", $tags="") {
+  Component(Application.Application.Analytics, "Analytics", $techn="Module", $descr="", $tags="", $link="")
   Component(Application.Application.Notification, "Notification", $techn="Module", $descr="", $tags="", $link="")
   Component(Application.Application.Booking, "Booking", $techn="Module", $descr="", $tags="", $link="")
   Component(Application.Application.Review, "Review", $techn="Module", $descr="", $tags="", $link="")
@@ -16,9 +17,11 @@ Container_Boundary("Application.Application_boundary", "Application", $tags="") 
   Component(Application.Application.User, "User", $techn="Module", $descr="", $tags="", $link="")
 }
 
+Rel(Application.Application.Booking, Application.Application.Analytics, "depends on", $techn="", $tags="", $link="")
 Rel(Application.Application.Booking, Application.Application.Event, "uses", $techn="", $tags="", $link="")
 Rel(Application.Application.Booking, Application.Application.User, "uses", $techn="", $tags="", $link="")
 Rel(Application.Application.Notification, Application.Application.Booking, "listens to", $techn="", $tags="", $link="")
+Rel(Application.Application.User, Application.Application.Analytics, "depends on", $techn="", $tags="", $link="")
 Rel(Application.Application.Review, Application.Application.User, "depends on", $techn="", $tags="", $link="")
 Rel(Application.Application.Event, Application.Application.User, "listens to", $techn="", $tags="", $link="")
 

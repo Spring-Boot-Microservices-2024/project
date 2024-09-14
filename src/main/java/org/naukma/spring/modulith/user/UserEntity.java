@@ -1,6 +1,9 @@
 package org.naukma.spring.modulith.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,15 +17,23 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
+    @Min(3)
     @Column(nullable = false, length = 30, unique = true)
     private String username;
+    @NotNull
+    @Min(6)
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false,length = 100)
+    @Email
+    @NotNull
+    @Column(nullable = false, length = 100)
     private String email;
-    @Column(nullable = false,length = 50)
+    @NotNull
+    @Column(nullable = false, length = 50)
     private String firstname;
-    @Column(nullable = false,length = 50)
+    @NotNull
+    @Column(nullable = false, length = 50)
     private String lastname;
 }

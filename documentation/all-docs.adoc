@@ -1,6 +1,9 @@
 == Application
 plantuml::components.puml[]
 
+== Analytics
+plantuml::module-analytics.puml[]
+
 == Notification
 plantuml::module-notification.puml[]
 

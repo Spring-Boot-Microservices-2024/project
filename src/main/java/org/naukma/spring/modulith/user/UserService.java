@@ -1,28 +1,30 @@
 package org.naukma.spring.modulith.user;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.naukma.spring.modulith.Application;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.naukma.spring.modulith.analytics.AnalyticsEvent;
+import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final IUserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
-    static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     @Transactional
     public UserDto createUser(UserDto user) {
-        logger.info("Creating physical user");
+        log.info("Creating physical user");
         UserEntity createdUser = userRepository.save(IUserMapper.INSTANCE.dtoToEntity(user));
-        logger.info("User created successfully.");
+        log.info("User created successfully.");
+
+        eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.USER_REGISTERED));
+
         return IUserMapper.INSTANCE.entityToDto(createdUser);
     }
 
@@ -30,21 +32,20 @@ public class UserService {
         if (userRepository.existsById(userId)) {
             eventPublisher.publishEvent(new DeletedUserEvent(userId));
             userRepository.deleteById(userId);
-            logger.info("Deleted user with ID: {}", userId);
+            log.info("Deleted user with ID: {}", userId);
         } else {
-            logger.warn("User not found for deletion with ID: {}", userId);
+            log.warn("User not found for deletion with ID: {}", userId);
         }
     }
 
-    public UserDto getUserById(Long userId) {
+    public Optional<UserDto> getUserById(Long userId) {
         UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            logger.info("Retrieved user with ID: {}", user.getId());
-        } else {
-            logger.warn("User not found with ID: {}", userId);
-            throw new EntityNotFoundException("User with id " + userId + " not found");
-        }
-        return IUserMapper.INSTANCE.entityToDto(user);
+
+        if (user != null)
+            return Optional.of(IUserMapper.INSTANCE.entityToDto(user));
+        else
+            return Optional.empty();
+
     }
 
     public UserDto getUserByUsername(String username) {
