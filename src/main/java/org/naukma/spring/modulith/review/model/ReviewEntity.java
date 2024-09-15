@@ -1,7 +1,8 @@
-package org.naukma.spring.modulith.review;
+package org.naukma.spring.modulith.review.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.naukma.spring.modulith.event.EventEntity;
 import org.naukma.spring.modulith.user.UserEntity;
 
 @Entity
@@ -10,12 +11,19 @@ import org.naukma.spring.modulith.user.UserEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    private EventEntity event;
+
     @ManyToOne
     private UserEntity author;
+
     private int rating;
+
     @Column(length = 300)
     private String comment;
 }
