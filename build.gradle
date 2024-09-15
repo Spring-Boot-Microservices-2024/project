@@ -60,8 +60,8 @@ tasks.named('test') {
 docker {
     springBootApplication {
         ports = [8080]
-        baseImage = 'openjdk:21-jdk'
+        baseImage = 'openjdk:24'
         jvmArgs = ['-Dspring.profiles.active=production', '-Xmx2048m']
-        images = ['modulith-booking-service']
+        images = ['daimonix/modulith-booking-service']
     }
 }
