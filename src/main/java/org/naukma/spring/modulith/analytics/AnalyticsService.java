@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class AnalyticsService {
         if (today.isPresent()) return today.get();
 
         AnalyticsEntity newEntity = new AnalyticsEntity();
-        newEntity.setDate(new Date());
+        newEntity.setDate(LocalDate.now());
         return analyticsRepository.save(newEntity);
     }
 
@@ -34,7 +34,7 @@ public class AnalyticsService {
         return analyticsRepository.findAll().stream().map(AnalyticsMapper.INSTANCE::entityToDto).toList();
     }
 
-    public AnalyticsDto getByDate(Date date) {
+    public AnalyticsDto getByDate(LocalDate date) {
         Optional<AnalyticsEntity> entity = analyticsRepository.findByDate(date);
         return entity.map(AnalyticsMapper.INSTANCE::entityToDto).orElse(null);
     }

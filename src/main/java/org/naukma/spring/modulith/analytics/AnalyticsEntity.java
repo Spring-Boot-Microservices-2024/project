@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -16,7 +16,7 @@ public class AnalyticsEntity {
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 
     private Long newUsers = 0L;
     private Long newEvents = 0L;
