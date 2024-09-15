@@ -24,8 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-
-    @PostMapping("/new")
+    @PostMapping()
     public UserRequestDto createUser(@RequestBody @Valid UserRequestDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult.getAllErrors().toString());
