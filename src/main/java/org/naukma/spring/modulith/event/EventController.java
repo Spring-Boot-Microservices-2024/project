@@ -1,15 +1,16 @@
 package org.naukma.spring.modulith.event;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -17,16 +18,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventController {
 
-    private final EventService eventService;
+    private final IEventService eventService;
 
     @PostMapping()
-    public EventRequestDto createEvent(@RequestBody @Valid EventRequestDto event, BindingResult bindingResult) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventDto createEvent(@RequestBody @Valid CreateEventRequestDto event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult.getAllErrors().toString());
         }
-        EventDto createdEvent = eventService.addEvent(IEventMapper.INSTANCE.requestDtoToDto(event));
+        EventDto createdEvent = eventService.createEvent(event);
         log.info("Event created with ID: {}", createdEvent.getId());
-        return IEventMapper.INSTANCE.dtoToRequestDto(createdEvent);
+        return createdEvent;
     }
 
     @DeleteMapping("/{id}")
@@ -38,26 +40,51 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public EventRequestDto getEventById(@PathVariable Long eventId) {
+    @ResponseStatus(HttpStatus.OK)
+    public EventDto getEventById(@PathVariable Long eventId) {
         log.info("Retrieving event with ID: {}", eventId);
-        return IEventMapper.INSTANCE.dtoToRequestDto(eventService.getEventById(eventId));
+        return eventService.getEventById(eventId);
     }
 
     @GetMapping("/organiser/{id}")
-    public List<EventRequestDto> getAllByOrganiserId(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventDto> getAllByOrganiserId(@PathVariable Long id) {
         log.info("Getting all events by organiser id");
-        return eventService.findAllByOrganiserId(id).stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.findAllByOrganiserId(id);
     }
 
     @GetMapping("/participant/{id}")
-    public List<EventRequestDto> getAllByParticipantId(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventDto> getAllByParticipantId(@PathVariable Long id) {
         log.info("Getting all events by participant id");
-        return eventService.findAllForParticipantById(id).stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.findAllForParticipantById(id);
     }
 
     @GetMapping
-    public List<EventRequestDto> getAll() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventDto> getAll() {
         log.info("Getting all events");
-        return eventService.getAll().stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.getAll();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
+        String errorMessage = "ERROR: " + e.getMessage();
+        log.error(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(jakarta.validation.ValidationException.class)
+    public ResponseEntity<String> handleValidationException(jakarta.validation.ValidationException e) {
+        String errorMessage = "ERROR: " + e.getMessage();
+        log.error(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        String errorMessage = "ERROR: " + e.getMessage();
+        log.error(errorMessage);
+        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

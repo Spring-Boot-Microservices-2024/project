@@ -8,20 +8,19 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public UserDto createUser(UserDto user) {
+    @Override
+    public UserDto createUser(CreateUserRequestDto user) {
         log.info("Creating physical user");
-        UserEntity createdUser = userRepository.save(IUserMapper.INSTANCE.dtoToEntity(user));
+        UserEntity createdUser = userRepository.save(IUserMapper.INSTANCE.createRequestDtoToToEntity(user));
         log.info("User created successfully.");
 
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.USER_REGISTERED));
@@ -29,6 +28,7 @@ public class UserService {
         return IUserMapper.INSTANCE.entityToDto(createdUser);
     }
 
+    @Override
     public void deleteUser(Long userId) {
         if (userRepository.existsById(userId)) {
             eventPublisher.publishEvent(new DeletedUserEvent(userId));
@@ -39,23 +39,24 @@ public class UserService {
         }
     }
 
-    public Optional<UserDto> getUserById(Long userId) {
-        UserEntity user = userRepository.findById(userId).orElse(null);
-
-        if (user != null)
-            return Optional.of(IUserMapper.INSTANCE.entityToDto(user));
-        else
-            return Optional.empty();
-
+    @Override
+    public UserDto getUserById(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+        return IUserMapper.INSTANCE.entityToDto(user);
     }
 
+    @Override
     public UserDto getUserByUsername(String username) {
-        Optional<UserEntity> user = userRepository.findByUsername(username);
-        return user.map(IUserMapper.INSTANCE::entityToDto).orElse(null);
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+        return IUserMapper.INSTANCE.entityToDto(user);
     }
 
+    @Override
     public UserDto getUserByEmail(String email) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        return user.map(IUserMapper.INSTANCE::entityToDto).orElse(null);
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+        return IUserMapper.INSTANCE.entityToDto(user);
     }
 }

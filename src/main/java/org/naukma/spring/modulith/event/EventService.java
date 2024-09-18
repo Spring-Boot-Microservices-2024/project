@@ -1,6 +1,5 @@
 package org.naukma.spring.modulith.event;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
@@ -15,52 +14,50 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EventService {
+public class EventService implements IEventService {
 
     private final IEventRepository eventRepository;
+
     private final ApplicationEventPublisher eventPublisher;
 
+    @Override
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
     @Transactional
-    public EventDto addEvent(EventDto event) {
+    @Override
+    public EventDto createEvent(CreateEventRequestDto event) {
         log.info("Creating event");
-        EventEntity createdEvent = eventRepository.save(IEventMapper.INSTANCE.dtoToEntity(event));
+        EventEntity createdEvent = eventRepository.save(IEventMapper.INSTANCE.createRequestDtoToEntity(event));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.EVENT_CREATED));
-
         log.info("Event created successfully.");
-
         return IEventMapper.INSTANCE.entityToDto(createdEvent);
     }
 
     @Transactional
+    @Override
     public EventDto updateEvent(EventDto event) {
-        Optional<EventEntity> optional = eventRepository.findById(event.getId());
-        if (optional.isPresent()) {
-            EventEntity eventEntity = optional.get();
-            eventEntity.setCapacity(event.getCapacity());
-            eventEntity.setDescription(event.getDescription());
-            eventEntity.setCaption(event.getCaption());
-            eventEntity.setAddress(event.getAddress());
-            eventEntity.setDateTime(event.getDateTime());
-            eventEntity.setPrice(event.getPrice());
-            eventEntity.setOnline(event.isOnline());
-            EventEntity editedEvent = eventRepository.save(eventEntity);
-            log.info("Updating event with id {}", editedEvent.getId());
-            return IEventMapper.INSTANCE.entityToDto(editedEvent);
-        } else {
-            throw new EntityNotFoundException("Event not found for editing");
-        }
+        EventEntity eventEntity = eventRepository.findById(event.getId())
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + event.getId()));
+        eventEntity.setCapacity(event.getCapacity());
+        eventEntity.setDescription(event.getDescription());
+        eventEntity.setCaption(event.getCaption());
+        eventEntity.setAddress(event.getAddress());
+        eventEntity.setDateTime(event.getDateTime());
+        eventEntity.setPrice(event.getPrice());
+        eventEntity.setOnline(event.isOnline());
+        EventEntity editedEvent = eventRepository.save(eventEntity);
+        log.info("Updating event with id {}", editedEvent.getId());
+        return IEventMapper.INSTANCE.entityToDto(editedEvent);
     }
 
+    @Override
     public void deleteEvent(Long eventId) {
         if (eventRepository.existsById(eventId)) {
             eventRepository.deleteById(eventId);
@@ -71,30 +68,23 @@ public class EventService {
         }
     }
 
-    public void addParticipant(Long eventId, UserDto user){
-        EventEntity event = eventRepository.findById(eventId).orElse(null);
-
-        if (event == null) {
-            log.warn("Event not found with ID: {}", eventId);
-            throw new EntityNotFoundException("Event with id " + eventId + " not found");
-        }
-
-        event.getParticipants().add(IUserMapper.INSTANCE.dtoToEntity(user));
+    @Override
+    public void addParticipant(Long eventId, UserDto user) {
+        EventEntity event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+        event.getParticipants().add(IUserMapper.INSTANCE.dtoToToEntity(user));
         eventRepository.save(event);
     }
 
-    public void removeParticipant(Long eventId, UserDto user){
-        EventEntity event = eventRepository.findById(eventId).orElse(null);
-
-        if (event == null) {
-            log.warn("Event not found with ID: {}", eventId);
-            throw new EntityNotFoundException("Event with id " + eventId + " not found");
-        }
-
-        event.getParticipants().remove(IUserMapper.INSTANCE.dtoToEntity(user));
+    @Override
+    public void removeParticipant(Long eventId, UserDto user) {
+        EventEntity event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+        event.getParticipants().remove(IUserMapper.INSTANCE.dtoToToEntity(user));
         eventRepository.save(event);
     }
 
+    @Override
     public List<EventDto> findAllByOrganiserId(Long organiserId) {
         List<EventEntity> events = eventRepository.findAllByOrganiserId(organiserId);
         if (events.isEmpty()) {
@@ -106,17 +96,18 @@ public class EventService {
     }
 
     @EventListener
+    @Override
     public void onDeletedUserEvent(DeletedUserEvent event) {
         List<EventEntity> organisedEvents = eventRepository.findAllByOrganiserId(event.getUserId());
         eventRepository.deleteAll(organisedEvents);
-
         List<EventEntity> participationEvents = eventRepository.findAllByParticipantId(event.getUserId());
-        for(EventEntity eventEntity :participationEvents){
+        for (EventEntity eventEntity : participationEvents) {
             eventEntity.getParticipants().removeIf(user -> user.getId().equals(event.getUserId()));
             eventRepository.save(eventEntity);
         }
     }
 
+    @Override
     public List<EventDto> findAllForParticipantById(Long id) {
         List<EventEntity> events = eventRepository.findAllByParticipantId(id);
         if (events.isEmpty()) {
@@ -127,14 +118,11 @@ public class EventService {
         return events.stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
+    @Override
     public EventDto getEventById(Long eventId) {
-        EventEntity event = eventRepository.findById(eventId).orElse(null);
-        if (event != null) {
-            log.info("Retrieved event with ID: {}", event.getId());
-        } else {
-            log.warn("Event not found with ID: {}", eventId);
-            throw new EntityNotFoundException("Event with id " + eventId + " not found");
-        }
+        EventEntity event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+        log.info("Retrieved event with ID: {}", event.getId());
         return IEventMapper.INSTANCE.entityToDto(event);
     }
 }
