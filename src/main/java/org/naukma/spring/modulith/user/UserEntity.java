@@ -16,13 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @Size(min = 3, max = 50)
     @Column(nullable = false, length = 30, unique = true)
     private String username;
+
     @NotNull
     @Size(min = 6, max = 50)
     @Column(nullable = false)
@@ -32,9 +35,11 @@ public class UserEntity {
     @NotNull
     @Column(nullable = false, length = 100)
     private String email;
+
     @NotNull
     @Column(nullable = false, length = 50)
     private String firstname;
+
     @NotNull
     @Column(nullable = false, length = 50)
     private String lastname;

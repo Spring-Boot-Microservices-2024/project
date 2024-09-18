@@ -3,9 +3,12 @@ package org.naukma.spring.modulith.event;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.naukma.spring.modulith.analytics.AnalyticsEvent;
+import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
 import org.naukma.spring.modulith.user.IUserMapper;
 import org.naukma.spring.modulith.user.UserDto;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +22,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EventService {
+
     private final IEventRepository eventRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
@@ -29,6 +34,8 @@ public class EventService {
     public EventDto addEvent(EventDto event) {
         log.info("Creating event");
         EventEntity createdEvent = eventRepository.save(IEventMapper.INSTANCE.dtoToEntity(event));
+        eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.EVENT_CREATED));
+
         log.info("Event created successfully.");
 
         return IEventMapper.INSTANCE.entityToDto(createdEvent);
@@ -57,6 +64,7 @@ public class EventService {
     public void deleteEvent(Long eventId) {
         if (eventRepository.existsById(eventId)) {
             eventRepository.deleteById(eventId);
+            eventPublisher.publishEvent(new DeletedEventEvent(eventId));
             log.info("Deleted event with ID: {}", eventId);
         } else {
             log.warn("Event not found for deletion with ID: {}", eventId);

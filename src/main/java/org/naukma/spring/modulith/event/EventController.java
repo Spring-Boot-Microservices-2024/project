@@ -2,6 +2,7 @@ package org.naukma.spring.modulith.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/events")
 @RequiredArgsConstructor
 public class EventController {
+
     private final EventService eventService;
 
-    @PostMapping("/new")
+    @PostMapping()
     public EventRequestDto createEvent(@RequestBody @Valid EventRequestDto event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult.getAllErrors().toString());
@@ -28,6 +30,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEvent(@PathVariable Long id) {
         log.info("Deleting event with ID: {}", id);
         eventService.deleteEvent(id);
