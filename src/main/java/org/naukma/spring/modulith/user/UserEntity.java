@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Data
 @Entity
 @Table(name = "users")
@@ -21,20 +20,15 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
     @NotNull
-    @Size(min = 3, max = 50)
-    @Column(nullable = false, length = 30, unique = true)
-    private String username;
+    @Column(nullable = false, length = 100, unique = true)
+    private String email;
 
     @NotNull
     @Size(min = 6, max = 50)
     @Column(nullable = false)
     private String password;
-
-    @Email
-    @NotNull
-    @Column(nullable = false, length = 100)
-    private String email;
 
     @NotNull
     @Column(nullable = false, length = 50)

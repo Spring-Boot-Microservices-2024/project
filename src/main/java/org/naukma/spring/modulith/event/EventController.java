@@ -24,9 +24,9 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult.getAllErrors().toString());
         }
-        EventDto createdEvent = eventService.addEvent(IEventMapper.INSTANCE.requestDtoToDto(event));
+        EventDto createdEvent = eventService.addEvent(EventMapper.INSTANCE.requestDtoToDto(event));
         log.info("Event created with ID: {}", createdEvent.getId());
-        return IEventMapper.INSTANCE.dtoToRequestDto(createdEvent);
+        return EventMapper.INSTANCE.dtoToRequestDto(createdEvent);
     }
 
     @DeleteMapping("/{id}")
@@ -40,24 +40,24 @@ public class EventController {
     @GetMapping("/{eventId}")
     public EventRequestDto getEventById(@PathVariable Long eventId) {
         log.info("Retrieving event with ID: {}", eventId);
-        return IEventMapper.INSTANCE.dtoToRequestDto(eventService.getEventById(eventId));
+        return EventMapper.INSTANCE.dtoToRequestDto(eventService.getEventById(eventId));
     }
 
     @GetMapping("/organiser/{id}")
     public List<EventRequestDto> getAllByOrganiserId(@PathVariable Long id) {
         log.info("Getting all events by organiser id");
-        return eventService.findAllByOrganiserId(id).stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.findAllByOrganiserId(id).stream().map(EventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
     }
 
     @GetMapping("/participant/{id}")
     public List<EventRequestDto> getAllByParticipantId(@PathVariable Long id) {
         log.info("Getting all events by participant id");
-        return eventService.findAllForParticipantById(id).stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.findAllForParticipantById(id).stream().map(EventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
     }
 
     @GetMapping
     public List<EventRequestDto> getAll() {
         log.info("Getting all events");
-        return eventService.getAll().stream().map(IEventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
+        return eventService.getAll().stream().map(EventMapper.INSTANCE::dtoToRequestDto).collect(Collectors.toList());
     }
 }

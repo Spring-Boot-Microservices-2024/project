@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
-import org.naukma.spring.modulith.user.IUserMapper;
 import org.naukma.spring.modulith.user.UserDto;
+import org.naukma.spring.modulith.user.UserMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -23,22 +23,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
-    private final IEventRepository eventRepository;
+    private final EventRepository eventRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     public List<EventDto> getAll() {
-        return eventRepository.findAll().stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
     @Transactional
     public EventDto addEvent(EventDto event) {
         log.info("Creating event");
-        EventEntity createdEvent = eventRepository.save(IEventMapper.INSTANCE.dtoToEntity(event));
+        EventEntity createdEvent = eventRepository.save(EventMapper.INSTANCE.dtoToEntity(event));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.EVENT_CREATED));
 
         log.info("Event created successfully.");
 
-        return IEventMapper.INSTANCE.entityToDto(createdEvent);
+        return EventMapper.INSTANCE.entityToDto(createdEvent);
     }
 
     @Transactional
@@ -55,7 +55,7 @@ public class EventService {
             eventEntity.setOnline(event.isOnline());
             EventEntity editedEvent = eventRepository.save(eventEntity);
             log.info("Updating event with id {}", editedEvent.getId());
-            return IEventMapper.INSTANCE.entityToDto(editedEvent);
+            return EventMapper.INSTANCE.entityToDto(editedEvent);
         } else {
             throw new EntityNotFoundException("Event not found for editing");
         }
@@ -79,7 +79,7 @@ public class EventService {
             throw new EntityNotFoundException("Event with id " + eventId + " not found");
         }
 
-        event.getParticipants().add(IUserMapper.INSTANCE.dtoToEntity(user));
+        event.getParticipants().add(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
     }
 
@@ -91,7 +91,7 @@ public class EventService {
             throw new EntityNotFoundException("Event with id " + eventId + " not found");
         }
 
-        event.getParticipants().remove(IUserMapper.INSTANCE.dtoToEntity(user));
+        event.getParticipants().remove(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
     }
 
@@ -102,7 +102,7 @@ public class EventService {
             return Collections.emptyList();
         }
         log.info("Retrieved {} events for organiser ID: {}", events.size(), organiserId);
-        return events.stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return events.stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
     @EventListener
@@ -124,7 +124,7 @@ public class EventService {
             return Collections.emptyList();
         }
         log.info("Retrieved {} events for participant ID: {}", events.size(), id);
-        return events.stream().map(IEventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return events.stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
     public EventDto getEventById(Long eventId) {
@@ -135,6 +135,6 @@ public class EventService {
             log.warn("Event not found with ID: {}", eventId);
             throw new EntityNotFoundException("Event with id " + eventId + " not found");
         }
-        return IEventMapper.INSTANCE.entityToDto(event);
+        return EventMapper.INSTANCE.entityToDto(event);
     }
 }

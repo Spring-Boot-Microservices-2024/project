@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.review.dto.CreateReviewRequestDto;
 import org.naukma.spring.modulith.review.dto.ReviewResponseDto;
 import org.naukma.spring.modulith.review.exception.ReviewNotFoundException;
-import org.naukma.spring.modulith.review.service.IReviewService;
 import org.naukma.spring.modulith.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
-    private final IReviewService reviewService;
+    private final ReviewService reviewService;
 
     @Autowired
     public ReviewController(ReviewService reviewService) {

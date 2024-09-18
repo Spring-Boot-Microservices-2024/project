@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface IEventMapper {
-    IEventMapper INSTANCE = Mappers.getMapper(IEventMapper.class);
+public interface EventMapper {
+    EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
     EventDto entityToDto(EventEntity eventEntity);
     EventEntity dtoToEntity(EventDto eventDto);
     EventRequestDto dtoToRequestDto(EventDto eventDto);

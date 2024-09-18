@@ -19,19 +19,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public UserDto createUser(UserDto user) {
         log.info("Creating physical user");
-        UserEntity createdUser = userRepository.save(IUserMapper.INSTANCE.dtoToEntity(user));
+        UserEntity createdUser = userRepository.save(UserMapper.INSTANCE.dtoToEntity(user));
         log.info("User created successfully.");
 
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.USER_REGISTERED));
 
-        return IUserMapper.INSTANCE.entityToDto(createdUser);
+        return UserMapper.INSTANCE.entityToDto(createdUser);
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -49,24 +49,19 @@ public class UserService {
         UserEntity user = userRepository.findById(userId).orElse(null);
 
         if (user != null)
-            return Optional.of(IUserMapper.INSTANCE.entityToDto(user));
+            return Optional.of(UserMapper.INSTANCE.entityToDto(user));
         else
             return Optional.empty();
     }
 
-    public UserDto getUserByUsername(String username) {
-        Optional<UserEntity> user = userRepository.findByUsername(username);
-        return user.map(IUserMapper.INSTANCE::entityToDto).orElse(null);
-    }
-
     public UserDto getUserByEmail(String email) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
-        return user.map(IUserMapper.INSTANCE::entityToDto).orElse(null);
+        return user.map(UserMapper.INSTANCE::entityToDto).orElse(null);
     }
 
     @Cacheable("users")
     public List<UserDto> getAllUsers(){
         List<UserEntity> users = userRepository.findAll();
-        return users.stream().map(IUserMapper.INSTANCE::entityToDto).toList();
+        return users.stream().map(UserMapper.INSTANCE::entityToDto).toList();
     }
 }

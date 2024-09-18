@@ -3,6 +3,7 @@ package org.naukma.spring.modulith.user;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,10 +48,10 @@ public class UserController {
         return user.get();
     }
 
-    @GetMapping("/username/{username}")
-    public UserDto getUserByUsername(@PathVariable String username) {
-        log.info("Retrieving user with username: {}", username);
-        return userService.getUserByUsername(username);
+    @GetMapping("/email/{email}")
+    public UserDto getUserByEmail(@PathVariable String email) {
+        log.info("Retrieving user with email: {}", email);
+        return userService.getUserByEmail(email);
     }
 
     @ExceptionHandler(Exception.class)
@@ -59,6 +60,8 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         else if (e instanceof ResponseStatusException)
             return new ResponseEntity<>(e.getMessage(), ((ResponseStatusException) e).getStatusCode());
+        else if (e instanceof DataIntegrityViolationException)
+            return new ResponseEntity<>("ERROR: User with this email already exists", HttpStatus.BAD_REQUEST);
 
         String errorMessage = "ERROR: " + e.getMessage();
         log.error(errorMessage);
