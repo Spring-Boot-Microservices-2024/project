@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @Data
 @Entity
 @Table(name = "users")
@@ -20,12 +22,12 @@ public class UserEntity {
     private Long id;
 
     @NotNull
-    @Size(min = 3)
+    @Size(min = 3, max = 50)
     @Column(nullable = false, length = 30, unique = true)
     private String username;
 
     @NotNull
-    @Size(min = 6)
+    @Size(min = 6, max = 50)
     @Column(nullable = false)
     private String password;
 

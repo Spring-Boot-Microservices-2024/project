@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -19,6 +23,7 @@ public class UserService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public UserDto createUser(UserDto user) {
         log.info("Creating physical user");
         UserEntity createdUser = userRepository.save(IUserMapper.INSTANCE.dtoToEntity(user));
@@ -29,6 +34,7 @@ public class UserService {
         return IUserMapper.INSTANCE.entityToDto(createdUser);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(Long userId) {
         if (userRepository.existsById(userId)) {
             eventPublisher.publishEvent(new DeletedUserEvent(userId));
@@ -46,7 +52,6 @@ public class UserService {
             return Optional.of(IUserMapper.INSTANCE.entityToDto(user));
         else
             return Optional.empty();
-
     }
 
     public UserDto getUserByUsername(String username) {
@@ -57,5 +62,11 @@ public class UserService {
     public UserDto getUserByEmail(String email) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         return user.map(IUserMapper.INSTANCE::entityToDto).orElse(null);
+    }
+
+    @Cacheable("users")
+    public List<UserDto> getAllUsers(){
+        List<UserEntity> users = userRepository.findAll();
+        return users.stream().map(IUserMapper.INSTANCE::entityToDto).toList();
     }
 }
