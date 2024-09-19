@@ -16,10 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
-    private final IReviewService reviewService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewServiceImpl reviewService) {
         this.reviewService = reviewService;
     }
 

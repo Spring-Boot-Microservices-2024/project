@@ -5,10 +5,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface IUserMapper {
-    IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
+public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
     UserDto entityToDto(UserEntity userEntity);
     @Mapping(target = "id", ignore = true)
     UserEntity createRequestDtoToToEntity(CreateUserRequestDto createUserRequestDto);
-    UserEntity dtoToToEntity(UserDto userDto);
+    UserEntity dtoToEntity(UserDto userDto);
 }

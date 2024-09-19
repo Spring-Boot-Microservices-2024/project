@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/users")
@@ -17,11 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
     @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid CreateUserRequestDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult.getAllErrors().toString());
@@ -32,6 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         log.info("Deleting user with ID: {}", id);
         userService.deleteUser(id);
@@ -39,15 +43,23 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     public UserDto getUserById(@PathVariable Long userId) {
         log.info("Retrieving user with ID: {}", userId);
         return userService.getUserById(userId);
     }
 
-    @GetMapping("/username/{username}")
-    public UserDto getUserByUsername(@PathVariable String username) {
-        log.info("Retrieving user with username: {}", username);
-        return userService.getUserByUsername(username);
+    @GetMapping("/email/{email}")
+    public UserDto getUserByEmail(@PathVariable String email) {
+        log.info("Retrieving user with email: {}", email);
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> getAllUsers() {
+        log.info("Retrieving all users");
+        return userService.getAllUsers();
     }
 
     @ExceptionHandler(UserNotFoundException.class)
