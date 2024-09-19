@@ -74,11 +74,18 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler(jakarta.validation.ValidationException.class)
-    public ResponseEntity<String> handleValidationException(jakarta.validation.ValidationException e) {
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handleValidationException(ValidationException e) {
         String errorMessage = "ERROR: " + e.getMessage();
         log.error(errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<String> handleEventNotFoundException(EventNotFoundException e) {
+        String errorMessage = "ERROR: " + e.getMessage();
+        log.error(errorMessage);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
