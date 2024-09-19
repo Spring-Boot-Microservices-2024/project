@@ -62,6 +62,7 @@ public class UserService {
     @Cacheable("users")
     public List<UserDto> getAllUsers(){
         List<UserEntity> users = userRepository.findAll();
+        log.info("Returning all users from database");
         return users.stream().map(UserMapper.INSTANCE::entityToDto).toList();
     }
 }
