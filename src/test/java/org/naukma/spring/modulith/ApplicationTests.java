@@ -7,6 +7,7 @@ import org.springframework.modulith.docs.Documenter;
 
 @SpringBootTest
 class ApplicationTests {
+
     @Test
     void contextLoads() {
         var modules = ApplicationModules.of(Application.class);

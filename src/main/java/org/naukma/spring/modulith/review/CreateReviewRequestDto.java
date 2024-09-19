@@ -1,4 +1,4 @@
-package org.naukma.spring.modulith.review.dto;
+package org.naukma.spring.modulith.review;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

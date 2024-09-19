@@ -1,6 +1,5 @@
-package org.naukma.spring.modulith.review.repository;
+package org.naukma.spring.modulith.review;
 
-import org.naukma.spring.modulith.review.model.ReviewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

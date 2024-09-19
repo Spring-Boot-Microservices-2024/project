@@ -1,4 +1,4 @@
-package org.naukma.spring.modulith.review.dto;
+package org.naukma.spring.modulith.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import org.naukma.spring.modulith.user.UserDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewResponseDto {
+public class ReviewDto {
     private Long id;
     private UserDto author;
     private EventDto event;

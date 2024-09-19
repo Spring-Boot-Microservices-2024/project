@@ -1,4 +1,4 @@
-package org.naukma.spring.modulith.review.model;
+package org.naukma.spring.modulith.review;
 
 import jakarta.persistence.*;
 import lombok.*;
