@@ -16,13 +16,12 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
 
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    @Override
     @CacheEvict(value = "users", allEntries = true)
     public UserDto createUser(CreateUserRequestDto user) {
         log.info("Creating physical user");
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
         return UserMapper.INSTANCE.entityToDto(createdUser);
     }
 
-    @Override
+
     @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(Long userId) {
         if (userRepository.existsById(userId)) {
@@ -46,14 +45,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+
     public UserDto getUserById(Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
         return UserMapper.INSTANCE.entityToDto(user);
     }
 
-    @Override
+
     public UserDto getUserByEmail(String email) {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
@@ -61,7 +60,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Cacheable("users")
-    @Override
     public List<UserDto> getAllUsers(){
         List<UserEntity> users = userRepository.findAll();
         log.info("Returning all users from database");

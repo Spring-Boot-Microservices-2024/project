@@ -6,9 +6,9 @@ import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.naukma.spring.modulith.event.DeletedEventEvent;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,20 +17,20 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewServiceImpl {
 
     private final ReviewRepository reviewRepository;
 
     private final ApplicationEventPublisher eventPublisher;
 
-    @Override
+
     public ReviewDto getReviewById(Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("Review not found with ID: " + reviewId));
         return ReviewMapper.INSTANCE.entityToResponseDto(review);
     }
 
-    @Override
+
     public void deleteReviewById(Long reviewId) {
         if (reviewRepository.existsById(reviewId)) {
             reviewRepository.deleteById(reviewId);
@@ -40,7 +40,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-    @Override
     @Transactional
     public ReviewDto createReview(CreateReviewRequestDto reviewRequestDto) {
         ReviewEntity savedReview = reviewRepository.save(ReviewMapper.INSTANCE.createRequestDtoToToEntity(reviewRequestDto));
@@ -51,7 +50,6 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewMapper.INSTANCE.entityToResponseDto(savedReview);
     }
 
-    @Override
     public List<ReviewDto> getAllReviews() {
         List<ReviewEntity> reviews = reviewRepository.findAll();
         return reviews.stream()
@@ -59,7 +57,6 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<ReviewDto> getAllReviewsByAuthorId(Long authorId) {
         List<ReviewEntity> reviews = reviewRepository.findAllByAuthorId(authorId);
         return reviews.stream()

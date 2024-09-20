@@ -12,7 +12,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AnalyticsServiceImpl implements AnalyticsService {
+public class AnalyticsServiceImpl {
 
     private final AnalyticsRepository analyticsRepository;
 
@@ -26,18 +26,18 @@ public class AnalyticsServiceImpl implements AnalyticsService {
         return analyticsRepository.save(newEntity);
     }
 
-    @Override
+
     public AnalyticsDto getToday() {
         AnalyticsEntity entity = getOrCreateTodayEntity();
         return AnalyticsMapper.INSTANCE.entityToDto(entity);
     }
 
-    @Override
+
     public List<AnalyticsDto> getAll() {
         return analyticsRepository.findAll().stream().map(AnalyticsMapper.INSTANCE::entityToDto).toList();
     }
 
-    @Override
+
     public AnalyticsDto getByDate(LocalDate date) {
         Optional<AnalyticsEntity> entity = analyticsRepository.findByDate(date);
         return entity.map(AnalyticsMapper.INSTANCE::entityToDto).orElse(null);

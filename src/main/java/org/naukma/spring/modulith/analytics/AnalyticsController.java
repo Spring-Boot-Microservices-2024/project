@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 public class AnalyticsController {
 
-    private final AnalyticsService analyticsService;
+    private final AnalyticsServiceImpl analyticsService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
-import org.naukma.spring.modulith.event.EventService;
-import org.naukma.spring.modulith.user.UserService;
+import org.naukma.spring.modulith.event.EventServiceImpl;
 import org.naukma.spring.modulith.user.UserDto;
+import org.naukma.spring.modulith.user.UserServiceImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BookingServiceImpl implements BookingService {
+public class BookingServiceImpl {
 
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private final ApplicationEventPublisher eventPublisher;
 

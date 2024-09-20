@@ -19,18 +19,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class EventServiceImpl {
 
     private final EventRepository eventRepository;
     private final ApplicationEventPublisher eventPublisher;
 
-    @Override
+
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
     @Transactional
-    @Override
     public EventDto createEvent(CreateEventRequestDto event) {
         log.info("Creating event");
         EventEntity createdEvent = eventRepository.save(EventMapper.INSTANCE.createRequestDtoToEntity(event));
@@ -40,7 +39,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Transactional
-    @Override
     public EventDto updateEvent(EventDto event) {
         EventEntity eventEntity = eventRepository.findById(event.getId())
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + event.getId()));
@@ -56,7 +54,7 @@ public class EventServiceImpl implements EventService {
         return EventMapper.INSTANCE.entityToDto(editedEvent);
     }
 
-    @Override
+
     public void deleteEvent(Long eventId) {
         if (eventRepository.existsById(eventId)) {
             eventRepository.deleteById(eventId);
@@ -67,7 +65,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    @Override
+
     public void addParticipant(Long eventId, UserDto user) {
         EventEntity event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
@@ -75,7 +73,7 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
     }
 
-    @Override
+
     public void removeParticipant(Long eventId, UserDto user) {
         EventEntity event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
@@ -83,7 +81,7 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
     }
 
-    @Override
+
     public List<EventDto> findAllByOrganiserId(Long organiserId) {
         List<EventEntity> events = eventRepository.findAllByOrganiserId(organiserId);
         if (events.isEmpty()) {
@@ -95,7 +93,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @EventListener
-    @Override
     public void onDeletedUserEvent(DeletedUserEvent event) {
         List<EventEntity> organisedEvents = eventRepository.findAllByOrganiserId(event.getUserId());
         eventRepository.deleteAll(organisedEvents);
@@ -106,7 +103,6 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    @Override
     public List<EventDto> findAllForParticipantById(Long id) {
         List<EventEntity> events = eventRepository.findAllByParticipantId(id);
         if (events.isEmpty()) {
@@ -117,7 +113,6 @@ public class EventServiceImpl implements EventService {
         return events.stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 
-    @Override
     public EventDto getEventById(Long eventId) {
         EventEntity event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BookingController {
 
-    private final BookingService bookingService;
+    private final BookingServiceImpl bookingService;
 
     @PutMapping("/{eventId}/register/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
