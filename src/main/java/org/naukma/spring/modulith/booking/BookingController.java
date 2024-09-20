@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 @RequiredArgsConstructor
 public class BookingController {
-
-    private final BookingServiceImpl bookingService;
+    private final BookingService bookingService;
 
     @PutMapping("/{eventId}/register/{userId}")
     @ResponseStatus(HttpStatus.CREATED)

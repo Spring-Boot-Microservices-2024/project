@@ -17,8 +17,7 @@ import java.util.List;
 @RequestMapping("/events")
 @RequiredArgsConstructor
 public class EventController {
-
-    private final EventServiceImpl eventService;
+    private final EventService eventService;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

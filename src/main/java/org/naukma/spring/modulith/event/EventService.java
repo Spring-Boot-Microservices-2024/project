@@ -19,11 +19,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl {
-
+public class EventService {
     private final EventRepository eventRepository;
     private final ApplicationEventPublisher eventPublisher;
-
 
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());

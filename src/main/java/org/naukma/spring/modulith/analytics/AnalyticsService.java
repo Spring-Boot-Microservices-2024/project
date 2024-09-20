@@ -12,8 +12,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AnalyticsServiceImpl {
-
+public class AnalyticsService {
     private final AnalyticsRepository analyticsRepository;
 
     private AnalyticsEntity getOrCreateTodayEntity() {
@@ -26,17 +25,14 @@ public class AnalyticsServiceImpl {
         return analyticsRepository.save(newEntity);
     }
 
-
     public AnalyticsDto getToday() {
         AnalyticsEntity entity = getOrCreateTodayEntity();
         return AnalyticsMapper.INSTANCE.entityToDto(entity);
     }
 
-
     public List<AnalyticsDto> getAll() {
         return analyticsRepository.findAll().stream().map(AnalyticsMapper.INSTANCE::entityToDto).toList();
     }
-
 
     public AnalyticsDto getByDate(LocalDate date) {
         Optional<AnalyticsEntity> entity = analyticsRepository.findByDate(date);

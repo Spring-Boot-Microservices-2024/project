@@ -16,8 +16,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
-
+public class UserService {
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -33,7 +32,6 @@ public class UserServiceImpl {
         return UserMapper.INSTANCE.entityToDto(createdUser);
     }
 
-
     @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(Long userId) {
         if (userRepository.existsById(userId)) {
@@ -45,13 +43,11 @@ public class UserServiceImpl {
         }
     }
 
-
     public UserDto getUserById(Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
         return UserMapper.INSTANCE.entityToDto(user);
     }
-
 
     public UserDto getUserByEmail(String email) {
         UserEntity user = userRepository.findByEmail(email)

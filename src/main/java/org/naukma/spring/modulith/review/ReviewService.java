@@ -17,19 +17,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ReviewServiceImpl {
-
+public class ReviewService {
     private final ReviewRepository reviewRepository;
-
     private final ApplicationEventPublisher eventPublisher;
-
 
     public ReviewDto getReviewById(Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("Review not found with ID: " + reviewId));
         return ReviewMapper.INSTANCE.entityToResponseDto(review);
     }
-
 
     public void deleteReviewById(Long reviewId) {
         if (reviewRepository.existsById(reviewId)) {
