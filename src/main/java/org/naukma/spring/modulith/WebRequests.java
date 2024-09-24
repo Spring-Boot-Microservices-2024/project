@@ -6,9 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebRequests {
-
     @Bean
     public WebClient webClient() {
-        return WebClient.create("http://localhost:8080");
+        return WebClient.create("http://analytics:8081");
     }
 }

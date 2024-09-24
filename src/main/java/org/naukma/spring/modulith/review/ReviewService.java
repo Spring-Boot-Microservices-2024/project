@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
+import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.naukma.spring.modulith.event.DeletedEventEvent;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AnalyticsService analyticsService;
 
     public ReviewDto getReviewById(Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)
@@ -39,6 +41,7 @@ public class ReviewService {
     @Transactional
     public ReviewDto createReview(CreateReviewRequestDto reviewRequestDto) {
         ReviewEntity savedReview = reviewRepository.save(ReviewMapper.INSTANCE.createRequestDtoToToEntity(reviewRequestDto));
+        analyticsService.reportEvent(AnalyticsEventType.REVIEW_CREATED);
         log.info("Review with ID: {} has been created successfully", savedReview.getId());
 
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.REVIEW_CREATED));

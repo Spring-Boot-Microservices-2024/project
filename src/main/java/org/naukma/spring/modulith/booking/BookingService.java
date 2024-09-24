@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
+import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.naukma.spring.modulith.event.EventService;
 import org.naukma.spring.modulith.user.UserDto;
 import org.naukma.spring.modulith.user.UserService;
@@ -18,11 +19,13 @@ public class BookingService {
     private final EventService eventService;
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
+    private final AnalyticsService analyticsService;
 
     @Transactional
     public void registerUserForEvent(Long userId, Long eventId) {
         UserDto user = userService.getUserById(userId);
         eventService.addParticipant(eventId, user);
+        analyticsService.reportEvent(AnalyticsEventType.BOOKING_CREATED);
         log.info("SUCCESS: User with id {} registered for event {}", userId, eventId);
         eventPublisher.publishEvent(new RegisteredForEvent(eventId, userId));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.BOOKING_CREATED));
