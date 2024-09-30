@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
+import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,12 +20,14 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AnalyticsService analyticsService;
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public UserDto createUser(CreateUserRequestDto user) {
         log.info("Creating physical user");
         UserEntity createdUser = userRepository.save(UserMapper.INSTANCE.createRequestDtoToToEntity(user));
+        analyticsService.reportEvent(AnalyticsEventType.USER_REGISTERED);
         log.info("User created successfully.");
 
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.USER_REGISTERED));

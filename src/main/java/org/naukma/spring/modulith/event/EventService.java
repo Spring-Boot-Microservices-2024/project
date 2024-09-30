@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
+import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
 import org.naukma.spring.modulith.user.UserDto;
 import org.naukma.spring.modulith.user.UserMapper;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class EventService {
     private final EventRepository eventRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AnalyticsService analyticsService;
 
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
@@ -32,6 +34,7 @@ public class EventService {
         log.info("Creating event");
         EventEntity createdEvent = eventRepository.save(EventMapper.INSTANCE.createRequestDtoToEntity(event));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.EVENT_CREATED));
+        analyticsService.reportEvent(AnalyticsEventType.EVENT_CREATED);
         log.info("Event created successfully.");
         return EventMapper.INSTANCE.entityToDto(createdEvent);
     }
