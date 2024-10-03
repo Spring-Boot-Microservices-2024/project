@@ -1,25 +1,30 @@
-#version: '3.8'
-#services:
-#  app:
-#    image: daimonix/modulith-booking-service
-#    container_name: spring_app
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      SPRING_REDIS_HOST: redis
-#      SPRING_REDIS_PORT: 6379
-#    depends_on:
-#      - redis
-#      - analytics
-#
-#  analytics:
-#    image: daimonix/modulith-booking-analytics
-#    container_name: analytics
-#    ports:
-#      - "8081:8081"
-#
-#  redis:
-#    image: "redis:7"
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
+version: '3.8'
+services:
+  app:
+    image: daimonix/modulith-booking-service
+    container_name: spring_app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      AUTH_HEADER: "X-API-KEY"
+      AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+    depends_on:
+      - redis
+      - analytics
+
+  analytics:
+    image: daimonix/modulith-booking-analytics
+    container_name: analytics
+    ports:
+      - "8081:8081"
+    environment:
+      AUTH_HEADER: "X-API-KEY"
+      AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+
+  redis:
+    image: "redis:7"
+    container_name: redis
+    ports:
+      - "6379:6379"
