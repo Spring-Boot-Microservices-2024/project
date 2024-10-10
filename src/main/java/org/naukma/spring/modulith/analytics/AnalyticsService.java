@@ -10,6 +10,6 @@ public class AnalyticsService {
     private final JmsTemplate jmsTemplate;
 
     public void reportEvent(AnalyticsEventType event) {
-        jmsTemplate.convertAndSend("analytics", event);
+        jmsTemplate.convertAndSend("analytics", new AnalyticsEvent(event));
     }
 }

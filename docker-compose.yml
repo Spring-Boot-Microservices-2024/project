@@ -12,7 +12,7 @@ services:
       AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
       SPRING_ARTEMIS_USER: "artemis"
       SPRING_ARTEMIS_PASSWORD: "artemis"
-      SPRING_ACTIVEMQ_BROKER_URL: "tcp://activemq:61616"
+      SPRING_ARTEMIS_BROKER_URL: "tcp://activemq:61616"
     depends_on:
       - redis
       - analytics
@@ -28,7 +28,7 @@ services:
       AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
       SPRING_ARTEMIS_USER: "artemis"
       SPRING_ARTEMIS_PASSWORD: "artemis"
-      SPRING_ACTIVEMQ_BROKER_URL: "tcp://activemq:61616"
+      SPRING_ARTEMIS_BROKER_URL: "tcp://activemq:61616"
     depends_on:
       - activemq
 
