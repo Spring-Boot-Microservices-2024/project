@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AnalyticsService {
+
     private final JmsTemplate jmsTemplate;
 
     public void reportEvent(AnalyticsEventType event) {
+        jmsTemplate.setPubSubDomain(false);
         jmsTemplate.convertAndSend("analytics", new AnalyticsEvent(event));
     }
 }
