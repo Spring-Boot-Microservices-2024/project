@@ -1,25 +1,46 @@
-#version: '3.8'
-#services:
-#  app:
-#    image: daimonix/modulith-booking-service
-#    container_name: spring_app
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      SPRING_REDIS_HOST: redis
-#      SPRING_REDIS_PORT: 6379
-#    depends_on:
-#      - redis
-#      - analytics
-#
-#  analytics:
-#    image: daimonix/modulith-booking-analytics
-#    container_name: analytics
-#    ports:
-#      - "8081:8081"
-#
-#  redis:
-#    image: "redis:7"
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
+version: '3.8'
+services:
+  app:
+    image: daimonix/modulith-booking-service
+    container_name: spring_app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      AUTH_HEADER: "X-API-KEY"
+      AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+      SPRING_ARTEMIS_USER: "artemis"
+      SPRING_ARTEMIS_PASSWORD: "artemis"
+      SPRING_ARTEMIS_BROKER_URL: "tcp://activemq:61616"
+    depends_on:
+      - redis
+      - analytics
+      - activemq
+
+  analytics:
+    image: daimonix/modulith-booking-analytics
+    container_name: analytics
+    ports:
+      - "8081:8081"
+    environment:
+      AUTH_HEADER: "X-API-KEY"
+      AUTH_KEY: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+      SPRING_ARTEMIS_USER: "artemis"
+      SPRING_ARTEMIS_PASSWORD: "artemis"
+      SPRING_ARTEMIS_BROKER_URL: "tcp://activemq:61616"
+    depends_on:
+      - activemq
+
+  redis:
+    image: "redis:7"
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  activemq:
+    image: "apache/activemq-artemis"
+    container_name: activemq
+    ports:
+      - "8161:8161"
+      - "61616:61616"
