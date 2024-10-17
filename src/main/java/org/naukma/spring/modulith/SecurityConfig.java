@@ -23,10 +23,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").authenticated()
-                        .requestMatchers("/events/**").authenticated()
-                        .requestMatchers("/reviews/**").authenticated()
-                        .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
