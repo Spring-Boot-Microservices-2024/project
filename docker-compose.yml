@@ -44,3 +44,9 @@ services:
     ports:
       - "8161:8161"
       - "61616:61616"
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - "3000:3000"
