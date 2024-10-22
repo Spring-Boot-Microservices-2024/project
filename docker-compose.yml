@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     image: daimonix/modulith-booking-service
-    container_name: spring_app
+    container_name: booking
     ports:
       - "8080:8080"
     environment:
@@ -44,3 +44,22 @@ services:
     ports:
       - "8161:8161"
       - "61616:61616"
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./docker/config/grafana/datasources/:/etc/grafana/provisioning/datasources
+      - ./docker/config/grafana/provisioning/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./docker/config/dashboards:/var/lib/grafana/dashboards
+
+  prometheus:
+    image: "prom/prometheus:v2.55.0-rc.1"
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
