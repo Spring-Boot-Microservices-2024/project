@@ -8,6 +8,7 @@ import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
 import org.naukma.spring.modulith.user.UserDto;
 import org.naukma.spring.modulith.user.UserMapper;
+import org.naukma.spring.modulith.user.UserService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final AnalyticsService analyticsService;
+    private final UserService userService;
 
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
@@ -32,7 +34,10 @@ public class EventService {
     @Transactional
     public EventDto createEvent(CreateEventRequestDto event) {
         log.info("Creating event");
-        EventEntity createdEvent = eventRepository.save(EventMapper.INSTANCE.createRequestDtoToEntity(event));
+        UserDto organiser = userService.getUserById(event.getOrganiserId());
+        EventEntity createdEvent = EventMapper.INSTANCE.createRequestDtoToEntity(event);
+        createdEvent.setOrganiser(UserMapper.INSTANCE.dtoToEntity(organiser));
+        createdEvent = eventRepository.save(createdEvent);
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.EVENT_CREATED));
         analyticsService.reportEvent(AnalyticsEventType.EVENT_CREATED);
         log.info("Event created successfully.");

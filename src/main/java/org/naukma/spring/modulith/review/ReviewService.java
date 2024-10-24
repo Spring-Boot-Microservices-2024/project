@@ -6,7 +6,13 @@ import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.naukma.spring.modulith.analytics.AnalyticsService;
 import org.naukma.spring.modulith.event.DeletedEventEvent;
+import org.naukma.spring.modulith.event.EventDto;
+import org.naukma.spring.modulith.event.EventMapper;
+import org.naukma.spring.modulith.event.EventService;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
+import org.naukma.spring.modulith.user.UserDto;
+import org.naukma.spring.modulith.user.UserMapper;
+import org.naukma.spring.modulith.user.UserService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -22,6 +28,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final AnalyticsService analyticsService;
+    private final UserService userService;
+    private final EventService eventService;
 
     public ReviewDto getReviewById(Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)
@@ -40,7 +48,12 @@ public class ReviewService {
 
     @Transactional
     public ReviewDto createReview(CreateReviewRequestDto reviewRequestDto) {
-        ReviewEntity savedReview = reviewRepository.save(ReviewMapper.INSTANCE.createRequestDtoToToEntity(reviewRequestDto));
+        UserDto user = userService.getUserById(reviewRequestDto.getUserId());
+        EventDto event = eventService.getEventById(reviewRequestDto.getEventId());
+        ReviewEntity savedReview = ReviewMapper.INSTANCE.createRequestDtoToToEntity(reviewRequestDto);
+        savedReview.setAuthor(UserMapper.INSTANCE.dtoToEntity(user));
+        savedReview.setEvent(EventMapper.INSTANCE.dtoToEntity(event));
+        savedReview = reviewRepository.save(savedReview);
         analyticsService.reportEvent(AnalyticsEventType.REVIEW_CREATED);
         log.info("Review with ID: {} has been created successfully", savedReview.getId());
 

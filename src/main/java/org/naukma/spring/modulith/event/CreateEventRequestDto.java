@@ -1,11 +1,13 @@
 package org.naukma.spring.modulith.event;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.naukma.spring.modulith.user.UserDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,19 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateEventRequestDto {
-
     @NotBlank
     @Size(max = 100, message = "Event caption length must be less than 100 characters")
     private String caption;
 
-    @FutureOrPresent
     private LocalDateTime dateTime;
 
     @Min(value = 0, message = "Event price must be 0 or more")
     private float price;
 
     @EqualsAndHashCode.Exclude
-    private List<UserDto> participants;
+    private List<Long> participantIds;
 
     @NotBlank
     private String description;
