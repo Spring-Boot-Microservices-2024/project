@@ -54,7 +54,7 @@ services:
     volumes:
       - ./docker/config/grafana/datasources/:/etc/grafana/provisioning/datasources
       - ./docker/config/grafana/provisioning/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
-      - ./docker/config/dashboards:/var/lib/grafana/dashboards
+      - ./docker/config/grafana/dashboards:/var/lib/grafana/dashboards
 
   prometheus:
     image: "prom/prometheus:v2.55.0-rc.1"

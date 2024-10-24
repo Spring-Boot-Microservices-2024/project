@@ -40,5 +40,5 @@ public class CreateEventRequestDto {
     private String address;
 
     @NotNull
-    private UserDto organiser;
+    private Long organiserId;
 }
