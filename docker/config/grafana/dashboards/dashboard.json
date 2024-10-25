@@ -18,9 +18,110 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "panels": [
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "jvm_memory_committed_bytes",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Memory usage",
+      "type": "timeseries"
+    },
     {
       "datasource": {
         "type": "prometheus",
@@ -85,7 +186,7 @@
         "h": 14,
         "w": 8,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 3,
       "options": {
@@ -181,7 +282,7 @@
         "h": 7,
         "w": 16,
         "x": 8,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -277,7 +378,7 @@
         "h": 7,
         "w": 16,
         "x": 8,
-        "y": 7
+        "y": 15
       },
       "id": 1,
       "options": {
@@ -314,8 +415,7 @@
       "type": "timeseries"
     }
   ],
-  "preload": false,
-  "schemaVersion": 40,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
@@ -328,6 +428,6 @@
   "timezone": "browser",
   "title": "Total Analytics Dashboard",
   "uid": "fe1uyqcpm720wb",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }
