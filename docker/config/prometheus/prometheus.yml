@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 3s
+
+scrape_configs:
+  - job_name: 'booking-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8080' ]
+        labels:
+          application: 'Booking Service'
+    authorization:
+      type: ""
+      credentials: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+
+  - job_name: 'analytics-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8081' ]
+        labels:
+          application: 'Analytic Service'
+    authorization:
+      type: ""
+      credentials: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"
+
+#  - job_name: 'email-service'
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: ['host.docker.internal:8082']
+#        labels:
+#          application: 'Email Service'
+#    authorization:
+#      type: ""
+#      credentials: "AVeutGPM5gRadbhyBYcCKHS4W7LpZ2rTEQ3U8m6qDJN9XvkFnw"

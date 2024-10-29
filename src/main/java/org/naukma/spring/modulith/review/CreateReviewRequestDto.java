@@ -4,8 +4,6 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.naukma.spring.modulith.event.EventDto;
-import org.naukma.spring.modulith.user.UserDto;
 
 @Data
 @NoArgsConstructor
@@ -13,10 +11,10 @@ import org.naukma.spring.modulith.user.UserDto;
 public class CreateReviewRequestDto {
 
     @NotNull
-    private UserDto author;
+    private Long userId;
 
     @NotNull
-    private EventDto event;
+    private Long eventId;
 
     @Min(value = 1, message = "Review rating must be between 1 and 10")
     @Max(value = 10, message = "Review rating must be between 1 and 10")
