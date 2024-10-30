@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Slf4j
@@ -39,31 +41,43 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    @ResponseStatus(HttpStatus.OK)
     public EventDto getEventById(@PathVariable Long eventId) {
         log.info("Retrieving event with ID: {}", eventId);
         return eventService.getEventById(eventId);
     }
 
     @GetMapping("/organiser/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public List<EventDto> getAllByOrganiserId(@PathVariable Long id) {
         log.info("Getting all events by organiser id");
         return eventService.findAllByOrganiserId(id);
     }
 
     @GetMapping("/participant/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public List<EventDto> getAllByParticipantId(@PathVariable Long id) {
         log.info("Getting all events by participant id");
         return eventService.findAllForParticipantById(id);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<EventDto> getAll() {
         log.info("Getting all events");
         return eventService.getAll();
+    }
+
+    @GetMapping("/period")
+    public List<EventDto> getEventsForPeriod(@RequestParam("startDate") String startDate,
+                                          @RequestParam("endDate") String endDate) {
+        LocalDateTime start = LocalDateTime.parse(startDate);
+        LocalDateTime end = LocalDateTime.parse(endDate);
+        return eventService.getEventsForPeriod(start, end);
+    }
+
+    @GetMapping("/next-week")
+    public List<EventDto> getEventsForNextWeek() {
+        LocalDateTime startOfNextWeek = LocalDateTime.now()
+                .with(TemporalAdjusters.nextOrSame(java.time.DayOfWeek.MONDAY));
+        LocalDateTime endOfNextWeek = startOfNextWeek.plusDays(6);
+        return eventService.getEventsForPeriod(startOfNextWeek, endOfNextWeek);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
