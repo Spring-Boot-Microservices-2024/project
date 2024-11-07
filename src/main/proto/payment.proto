@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.payment";
+option java_outer_classname = "PaymentProto";
+
+// Define the PaymentService service
+service PaymentService {
+  // Unary RPC method to process a payment
+  rpc ProcessPayment(PaymentRequest) returns (PaymentResponse);
+
+  // Bidirectional streaming RPC method to handle payment updates and cancellations
+  rpc StreamPaymentReturn(stream PaymentReturnRequest) returns (stream PaymentReturnResponse);
+}
+
+// Define the PaymentRequest message
+message PaymentRequest {
+  int64 user_id = 1;      // User identifier
+  int64 event_id = 2;     // Event identifier for the payment
+  float price = 3;       // Payment amount
+  string payment_method = 4; // Payment method (e.g., credit card, PayPal)
+  string timestamp = 5;    // Timestamp of the payment initiation
+}
+
+// Define the PaymentResponse message
+message PaymentResponse {
+  bool success = 1;        // Indicates if the payment was successful
+  string message = 2;      // Message with details, e.g., payment confirmation
+}
+
+// Define the PaymentRequest message
+message PaymentReturnRequest {
+  int64 payment_id = 1;
+  float refund_sum = 2;
+  string timestamp = 3;
+}
+
+// Define the PaymentUpdate message for streaming
+message PaymentReturnResponse {
+  string payment_id = 1;    // Unique identifier for the update
+  string timestamp = 3;    // Timestamp of the update
+  string message = 4;      // Detailed message or error if applicable
+  bool success = 5;
+}

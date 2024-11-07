@@ -22,20 +22,26 @@ public class BookingService {
     private final AnalyticsService analyticsService;
 
     @Transactional
-    public void registerUserForEvent(Long userId, Long eventId) {
+    public String registerUserForEvent(Long userId, Long eventId) {
         UserDto user = userService.getUserById(userId);
-        eventService.addParticipant(eventId, user);
+        String message = eventService.addParticipant(eventId, user);
+
         analyticsService.reportEvent(AnalyticsEventType.BOOKING_CREATED);
         log.info("SUCCESS: User with id {} registered for event {}", userId, eventId);
         eventPublisher.publishEvent(new RegisteredForEvent(eventId, userId));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.BOOKING_CREATED));
+
+        return message;
     }
 
     @Transactional
-    public void unregisterUserFromEvent(Long userId, Long eventId) {
+    public String unregisterUserFromEvent(Long userId, Long eventId) {
         UserDto user = userService.getUserById(userId);
-        eventService.removeParticipant(eventId, user);
+        String message = eventService.removeParticipant(eventId, user);
+
         log.info("SUCCESS: User with id {} unregistered from event {}", userId, eventId);
         eventPublisher.publishEvent(new UnregisteredFromEvent(eventId, userId));
+
+        return message;
     }
 }
