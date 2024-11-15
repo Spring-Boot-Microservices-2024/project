@@ -100,14 +100,14 @@ public class EventService {
         eventRepository.save(event);
 
         if (event.getPrice() > 0) {
-            processPaymentForEvent(EventMapper.INSTANCE.entityToDto(event));
-            return "User registered for the event successfully! Payment done";
+            String message = processPaymentForEvent(EventMapper.INSTANCE.entityToDto(event));
+            return "Registration for event: " + message;
         }
 
         return "User registered for the event successfully!";
     }
 
-    private void processPaymentForEvent(EventDto event) {
+    private String processPaymentForEvent(EventDto event) {
         long userId = event.getOrganiser().getId();
         long eventId = event.getId();
         float price = event.getPrice();
@@ -117,6 +117,7 @@ public class EventService {
         // Call the gRPC client to process the payment
         String paymentResponse = paymentGrpcClient.processPayment(userId, eventId, price, paymentMethod, timestamp);
         log.info("Payment processing result for event {}: {}", eventId, paymentResponse);
+        return paymentResponse;
     }
 
     public String removeParticipant(Long eventId, UserDto user) {
