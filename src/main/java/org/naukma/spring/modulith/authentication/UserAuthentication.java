@@ -1,26 +1,26 @@
 package org.naukma.spring.modulith.authentication;
 
+import org.naukma.spring.modulith.user.UserDto;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class ApiKeyAuthentication extends AbstractAuthenticationToken {
-    private final String apiKey;
+public class UserAuthentication extends AbstractAuthenticationToken {
+    private final UserDto user;
 
-    public ApiKeyAuthentication(String apiKey, Collection<? extends GrantedAuthority> authorities) {
+    public UserAuthentication(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.apiKey = apiKey;
-        setAuthenticated(true);
+        this.user = user;
     }
 
     @Override
     public Object getCredentials() {
-        return null;
+        return user;
     }
 
     @Override
     public Object getPrincipal() {
-        return apiKey;
+        return user;
     }
 }

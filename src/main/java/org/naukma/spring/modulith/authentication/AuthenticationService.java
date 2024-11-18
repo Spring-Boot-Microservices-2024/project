@@ -1,35 +1,44 @@
 package org.naukma.spring.modulith.authentication;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.naukma.spring.modulith.user.UserDto;
+import org.naukma.spring.modulith.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
 @Getter
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
-    @Value("${auth.header:X-API-KEY}")
-    private String authHeader;
-    @Value("${auth.key:booking}")
-    private String authKey;
-
-    @PostConstruct
-    public void init() {
-        log.info("AuthenticationService initialized with header: {} and key: {}", authHeader, authKey);
-    }
+    private final UserService userService;
 
     public Optional<Authentication> getAuthentication(HttpServletRequest request) {
-        String apiKey = request.getHeader(authHeader);
-        if (apiKey == null || !apiKey.equals(authKey))
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Basic "))
             return Optional.empty();
 
-        return Optional.of(new ApiKeyAuthentication(apiKey, AuthorityUtils.NO_AUTHORITIES));
+        String[] auth = new String(Base64.getDecoder().decode(authHeader.substring(6))).split(":");
+        String email = auth[0];
+        String password = auth[1];
+
+        if (email == null || password == null)
+            return Optional.empty();
+
+        UserDto user = userService.getUserForAuth(email, password);
+
+        System.out.println("User: " + user);
+
+        if (user == null)
+            return Optional.empty();
+
+        return Optional.of(new UserAuthentication(user, AuthorityUtils.createAuthorityList("USER")));
     }
 }
