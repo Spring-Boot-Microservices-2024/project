@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
 import org.naukma.spring.modulith.analytics.AnalyticsEventType;
 import org.naukma.spring.modulith.analytics.AnalyticsService;
+import org.naukma.spring.modulith.booking.BookingException;
 import org.naukma.spring.modulith.user.DeletedUserEvent;
 import org.naukma.spring.modulith.user.UserDto;
 import org.naukma.spring.modulith.user.UserMapper;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,7 +28,7 @@ public class EventService {
     private final UserService userService;
 
     public List<EventDto> getAll() {
-        return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).toList();
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public class EventService {
     @Transactional
     public EventDto updateEvent(EventDto event) {
         EventEntity eventEntity = eventRepository.findById(event.getId())
-                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + event.getId()));
+                .orElseThrow(() -> new EventNotFoundException(event.getId()));
         eventEntity.setCapacity(event.getCapacity());
         eventEntity.setDescription(event.getDescription());
         eventEntity.setCaption(event.getCaption());
@@ -74,7 +74,10 @@ public class EventService {
 
     public void addParticipant(Long eventId, UserDto user) {
         EventEntity event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
+        if (event.getParticipants().contains(UserMapper.INSTANCE.dtoToEntity(user))) {
+            throw new BookingException("Cannot add participant. User is already registered for the event with ID: " + eventId);
+        }
         event.getParticipants().add(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
     }
@@ -82,7 +85,10 @@ public class EventService {
 
     public void removeParticipant(Long eventId, UserDto user) {
         EventEntity event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
+        if (!event.getParticipants().contains(UserMapper.INSTANCE.dtoToEntity(user))) {
+            throw new BookingException("Cannot remove participant. User is not registered for the event with ID: " + eventId);
+        }
         event.getParticipants().remove(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
     }
@@ -95,7 +101,7 @@ public class EventService {
             return Collections.emptyList();
         }
         log.info("Retrieved {} events for organiser ID: {}", events.size(), organiserId);
-        return events.stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return events.stream().map(EventMapper.INSTANCE::entityToDto).toList();
     }
 
     @EventListener
@@ -116,12 +122,12 @@ public class EventService {
             return Collections.emptyList();
         }
         log.info("Retrieved {} events for participant ID: {}", events.size(), id);
-        return events.stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return events.stream().map(EventMapper.INSTANCE::entityToDto).toList();
     }
 
     public EventDto getEventById(Long eventId) {
         EventEntity event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
         log.info("Retrieved event with ID: {}", event.getId());
         return EventMapper.INSTANCE.entityToDto(event);
     }

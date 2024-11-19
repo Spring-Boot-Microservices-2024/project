@@ -10,6 +10,8 @@ import org.naukma.spring.modulith.email.EmailService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +25,15 @@ public class UserService {
     private final ApplicationEventPublisher eventPublisher;
     private final AnalyticsService analyticsService;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public UserDto createUser(CreateUserRequestDto user) {
         log.info("Creating physical user");
-        UserEntity createdUser = userRepository.save(UserMapper.INSTANCE.createRequestDtoToToEntity(user));
+        UserEntity userEntity = UserMapper.INSTANCE.createRequestDtoToToEntity(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        UserEntity createdUser = userRepository.save(userEntity);
         analyticsService.reportEvent(AnalyticsEventType.USER_REGISTERED);
         emailService.reportEmail(user.getEmail());
         log.info("User created successfully.");
@@ -69,8 +74,11 @@ public class UserService {
     }
 
     public UserDto getUserForAuth(String email, String password) {
-        UserEntity user = userRepository.findByEmailAndPassword(email, password)
+        UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with username: " + email));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Bad credentials");
+        }
         return UserMapper.INSTANCE.entityToDto(user);
     }
 

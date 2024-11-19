@@ -23,7 +23,6 @@ public class BookingController {
     }
 
     @PutMapping("/{eventId}/unregister/{userId}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> unregisterUserFromEvent(@PathVariable Long userId, @PathVariable Long eventId) {
         bookingService.unregisterUserFromEvent(userId, eventId);
         return ResponseEntity.ok("User unregistered from the event successfully.");
@@ -34,6 +33,13 @@ public class BookingController {
         String errorMessage = "ERROR: " + e.getMessage();
         log.error(errorMessage);
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BookingException.class)
+    public ResponseEntity<String> handleBookingException(BookingException e) {
+        String errorMessage = "ERROR: " + e.getMessage();
+        log.error(errorMessage);
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EventNotFoundException.class)
