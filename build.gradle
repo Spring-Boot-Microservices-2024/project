@@ -55,6 +55,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.3.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '3.3.3'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.18.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.1'
 }
 
 dependencyManagement {
