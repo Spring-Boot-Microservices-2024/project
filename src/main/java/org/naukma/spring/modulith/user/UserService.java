@@ -1,5 +1,6 @@
 package org.naukma.spring.modulith.user;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 
 @Slf4j
 @Service
@@ -66,5 +66,23 @@ public class UserService {
         List<UserEntity> users = userRepository.findAll();
         log.info("Returning all users from database");
         return users.stream().map(UserMapper.INSTANCE::entityToDto).toList();
+    }
+
+    public UserDto getUserForAuth(String email, String password) {
+        UserEntity user = userRepository.findByEmailAndPassword(email, password)
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + email));
+        return UserMapper.INSTANCE.entityToDto(user);
+    }
+
+    @PostConstruct
+    public void init() {
+        log.info("User service initialized");
+        CreateUserRequestDto user = new CreateUserRequestDto();
+        user.setEmail("testuser@test.com");
+        user.setPassword("password");
+        user.setFirstname("Test");
+        user.setLastname("User");
+        createUser(user);
+        log.info("Test user created");
     }
 }
