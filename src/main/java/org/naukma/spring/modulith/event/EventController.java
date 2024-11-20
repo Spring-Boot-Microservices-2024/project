@@ -31,11 +31,12 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
         log.info("Deleting event with ID: {}", id);
-        eventService.deleteEvent(id);
+        String message = eventService.deleteEvent(id);
         log.info("Event deleted with ID: {}", id);
+        return ResponseEntity.ok(message);
     }
 
     @GetMapping("/{eventId}")

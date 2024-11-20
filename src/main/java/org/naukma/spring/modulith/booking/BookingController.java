@@ -18,14 +18,14 @@ public class BookingController {
     @PutMapping("/{eventId}/register/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> registerUserForEvent(@PathVariable Long userId, @PathVariable Long eventId) {
-        bookingService.registerUserForEvent(userId, eventId);
-        return ResponseEntity.ok("User registered for the event successfully.");
+        String message = bookingService.registerUserForEvent(userId, eventId);
+        return ResponseEntity.ok(message);
     }
 
     @PutMapping("/{eventId}/unregister/{userId}")
     public ResponseEntity<String> unregisterUserFromEvent(@PathVariable Long userId, @PathVariable Long eventId) {
-        bookingService.unregisterUserFromEvent(userId, eventId);
-        return ResponseEntity.ok("User unregistered from the event successfully.");
+        String message = bookingService.unregisterUserFromEvent(userId, eventId);
+        return ResponseEntity.ok(message);
     }
 
     @ExceptionHandler(UserNotFoundException.class)

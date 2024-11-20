@@ -25,25 +25,32 @@ public class BookingService {
     private final JmsTemplate jmsTemplate;
 
     @Transactional
-    public void registerUserForEvent(Long userId, Long eventId) {
+    public String registerUserForEvent(Long userId, Long eventId) {
         UserDto user = userService.getUserById(userId);
         EventDto event = eventService.getEventById(eventId);
-        eventService.addParticipant(eventId, user);
+        String message = eventService.addParticipant(eventId, user);
+
         analyticsService.reportEvent(AnalyticsEventType.BOOKING_CREATED);
         sendBookingEventToJMS(new BookingEvent(event, user, BookingEventType.USER_REGISTERED_FOR_EVENT));
         log.info("SUCCESS: User with id {} registered for event {}", userId, eventId);
         eventPublisher.publishEvent(new RegisteredForEvent(eventId, userId));
         eventPublisher.publishEvent(new AnalyticsEvent(AnalyticsEventType.BOOKING_CREATED));
+
+        return message;
     }
 
     @Transactional
-    public void unregisterUserFromEvent(Long userId, Long eventId) {
+    public String unregisterUserFromEvent(Long userId, Long eventId) {
         UserDto user = userService.getUserById(userId);
         EventDto event = eventService.getEventById(eventId);
-        eventService.removeParticipant(eventId, user);
+
+        String message = eventService.removeParticipant(eventId, user);
         sendBookingEventToJMS(new BookingEvent(event, user, BookingEventType.USER_UNREGISTERED_FROM_EVENT));
+
         log.info("SUCCESS: User with id {} unregistered from event {}", userId, eventId);
         eventPublisher.publishEvent(new UnregisteredFromEvent(eventId, userId));
+
+        return message;
     }
 
     private void sendBookingEventToJMS(BookingEvent bookingEvent) {
