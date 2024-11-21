@@ -66,14 +66,14 @@ public class ReviewService {
         List<ReviewEntity> reviews = reviewRepository.findAll();
         return reviews.stream()
                 .map(ReviewMapper.INSTANCE::entityToResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<ReviewDto> getAllReviewsByAuthorId(Long authorId) {
         List<ReviewEntity> reviews = reviewRepository.findAllByAuthorId(authorId);
         return reviews.stream()
                 .map(ReviewMapper.INSTANCE::entityToResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @EventListener

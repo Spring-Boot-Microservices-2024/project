@@ -26,7 +26,7 @@ public class UserEntity {
     private String email;
 
     @NotNull
-    @Size(min = 6, max = 50)
+    @Size(min = 6)
     @Column(nullable = false)
     private String password;
 

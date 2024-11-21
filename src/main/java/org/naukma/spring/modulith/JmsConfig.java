@@ -1,7 +1,10 @@
 package org.naukma.spring.modulith;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.jms.ConnectionFactory;
 import org.naukma.spring.modulith.analytics.AnalyticsEvent;
+import org.naukma.spring.modulith.booking.BookingEvent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -32,12 +35,17 @@ public class JmsConfig {
     @Bean
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        Map<String, Class<?>> typeIdMappings = new HashMap<>();
-        typeIdMappings.put("JMS_TYPE", AnalyticsEvent.class);
-
-        converter.setTypeIdMappings(typeIdMappings);
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("JMS_TYPE");
+
+        Map<String, Class<?>> typeIdMappings = new HashMap<>();
+        typeIdMappings.put("AnalyticsEvent", AnalyticsEvent.class);
+        typeIdMappings.put("BookingEvent", BookingEvent.class);
+        converter.setTypeIdMappings(typeIdMappings);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        converter.setObjectMapper(objectMapper);
 
         return converter;
     }

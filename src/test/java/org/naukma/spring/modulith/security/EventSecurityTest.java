@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(EventController.class)
-public class EventSecurityTest {
+class EventSecurityTest {
 
     @Autowired
     private MockMvc mockMvc;

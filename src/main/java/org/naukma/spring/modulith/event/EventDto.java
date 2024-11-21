@@ -1,5 +1,6 @@
 package org.naukma.spring.modulith.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ public class EventDto {
     @Size(max = 100, message = "Event caption length must be less than 100 characters")
     private String caption;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateTime;
 
     @Min(value = 0, message = "Event price must be 0 or more")

@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.naukma.spring.modulith.utils.ExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,28 +65,28 @@ public class ReviewController {
 
     @ExceptionHandler(ReviewNotFoundException.class)
     public ResponseEntity<String> handleNoSuchCourseException(ReviewNotFoundException e) {
-        String errorMessage = "ERROR: " + e.getMessage();
+        String errorMessage = ExceptionHelper.ERROR_PREFIX + e.getMessage();
         log.error(errorMessage);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
-        String errorMessage = "ERROR: " + e.getMessage();
+        String errorMessage = ExceptionHelper.ERROR_PREFIX + e.getMessage();
         log.error(errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> handleValidationException(ValidationException e) {
-        String errorMessage = "ERROR: " + e.getMessage();
+        String errorMessage = ExceptionHelper.ERROR_PREFIX + e.getMessage();
         log.error(errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
-        String errorMessage = "ERROR: " + e.getMessage();
+        String errorMessage = ExceptionHelper.ERROR_PREFIX + e.getMessage();
         log.error(errorMessage);
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
