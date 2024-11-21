@@ -17,8 +17,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
-
 
 @Slf4j
 @Service
@@ -183,5 +183,9 @@ public class EventService {
                 .orElseThrow(() -> new EventNotFoundException(eventId));
         log.info("Retrieved event with ID: {}", event.getId());
         return EventMapper.INSTANCE.entityToDto(event);
+    }
+
+    public List<EventDto> getEventsForPeriod(LocalDateTime startDate, LocalDateTime endDate) {
+        return eventRepository.findAllByDateTimeBetween(startDate, endDate).stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
     }
 }
