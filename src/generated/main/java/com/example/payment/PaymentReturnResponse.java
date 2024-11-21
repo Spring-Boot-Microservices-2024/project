@@ -4,10 +4,6 @@
 package com.example.payment;
 
 /**
- * <pre>
- * Define the PaymentUpdate message for streaming
- * </pre>
- *
  * Protobuf type {@code PaymentReturnResponse}
  */
 public final class PaymentReturnResponse extends
@@ -49,10 +45,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object paymentId_ = "";
   /**
-   * <pre>
-   * Unique identifier for the update
-   * </pre>
-   *
    * <code>string payment_id = 1;</code>
    * @return The paymentId.
    */
@@ -70,10 +62,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Unique identifier for the update
-   * </pre>
-   *
    * <code>string payment_id = 1;</code>
    * @return The bytes for paymentId.
    */
@@ -92,15 +80,11 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 3;
+  public static final int TIMESTAMP_FIELD_NUMBER = 2;
   @SuppressWarnings("serial")
   private volatile java.lang.Object timestamp_ = "";
   /**
-   * <pre>
-   * Timestamp of the update
-   * </pre>
-   *
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 2;</code>
    * @return The timestamp.
    */
   @java.lang.Override
@@ -117,11 +101,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Timestamp of the update
-   * </pre>
-   *
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 2;</code>
    * @return The bytes for timestamp.
    */
   @java.lang.Override
@@ -139,15 +119,11 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 4;
+  public static final int MESSAGE_FIELD_NUMBER = 3;
   @SuppressWarnings("serial")
   private volatile java.lang.Object message_ = "";
   /**
-   * <pre>
-   * Detailed message or error if applicable
-   * </pre>
-   *
-   * <code>string message = 4;</code>
+   * <code>string message = 3;</code>
    * @return The message.
    */
   @java.lang.Override
@@ -164,11 +140,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Detailed message or error if applicable
-   * </pre>
-   *
-   * <code>string message = 4;</code>
+   * <code>string message = 3;</code>
    * @return The bytes for message.
    */
   @java.lang.Override
@@ -186,10 +158,10 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int SUCCESS_FIELD_NUMBER = 5;
+  public static final int SUCCESS_FIELD_NUMBER = 4;
   private boolean success_ = false;
   /**
-   * <code>bool success = 5;</code>
+   * <code>bool success = 4;</code>
    * @return The success.
    */
   @java.lang.Override
@@ -215,13 +187,13 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, paymentId_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(timestamp_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, timestamp_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, message_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
     }
     if (success_ != false) {
-      output.writeBool(5, success_);
+      output.writeBool(4, success_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -236,14 +208,14 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, paymentId_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(timestamp_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, timestamp_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, message_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
     }
     if (success_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(5, success_);
+        .computeBoolSize(4, success_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -386,10 +358,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Define the PaymentUpdate message for streaming
-   * </pre>
-   *
    * Protobuf type {@code PaymentReturnResponse}
    */
   public static final class Builder extends
@@ -567,21 +535,21 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000001;
               break;
             } // case 10
-            case 26: {
+            case 18: {
               timestamp_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000002;
               break;
-            } // case 26
-            case 34: {
+            } // case 18
+            case 26: {
               message_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000004;
               break;
-            } // case 34
-            case 40: {
+            } // case 26
+            case 32: {
               success_ = input.readBool();
               bitField0_ |= 0x00000008;
               break;
-            } // case 40
+            } // case 32
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -601,10 +569,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object paymentId_ = "";
     /**
-     * <pre>
-     * Unique identifier for the update
-     * </pre>
-     *
      * <code>string payment_id = 1;</code>
      * @return The paymentId.
      */
@@ -621,10 +585,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Unique identifier for the update
-     * </pre>
-     *
      * <code>string payment_id = 1;</code>
      * @return The bytes for paymentId.
      */
@@ -642,10 +602,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Unique identifier for the update
-     * </pre>
-     *
      * <code>string payment_id = 1;</code>
      * @param value The paymentId to set.
      * @return This builder for chaining.
@@ -659,10 +615,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Unique identifier for the update
-     * </pre>
-     *
      * <code>string payment_id = 1;</code>
      * @return This builder for chaining.
      */
@@ -673,10 +625,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Unique identifier for the update
-     * </pre>
-     *
      * <code>string payment_id = 1;</code>
      * @param value The bytes for paymentId to set.
      * @return This builder for chaining.
@@ -693,11 +641,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object timestamp_ = "";
     /**
-     * <pre>
-     * Timestamp of the update
-     * </pre>
-     *
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 2;</code>
      * @return The timestamp.
      */
     public java.lang.String getTimestamp() {
@@ -713,11 +657,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Timestamp of the update
-     * </pre>
-     *
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 2;</code>
      * @return The bytes for timestamp.
      */
     public com.google.protobuf.ByteString
@@ -734,11 +674,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Timestamp of the update
-     * </pre>
-     *
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 2;</code>
      * @param value The timestamp to set.
      * @return This builder for chaining.
      */
@@ -751,11 +687,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Timestamp of the update
-     * </pre>
-     *
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearTimestamp() {
@@ -765,11 +697,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Timestamp of the update
-     * </pre>
-     *
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 2;</code>
      * @param value The bytes for timestamp to set.
      * @return This builder for chaining.
      */
@@ -785,11 +713,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object message_ = "";
     /**
-     * <pre>
-     * Detailed message or error if applicable
-     * </pre>
-     *
-     * <code>string message = 4;</code>
+     * <code>string message = 3;</code>
      * @return The message.
      */
     public java.lang.String getMessage() {
@@ -805,11 +729,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Detailed message or error if applicable
-     * </pre>
-     *
-     * <code>string message = 4;</code>
+     * <code>string message = 3;</code>
      * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
@@ -826,11 +746,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Detailed message or error if applicable
-     * </pre>
-     *
-     * <code>string message = 4;</code>
+     * <code>string message = 3;</code>
      * @param value The message to set.
      * @return This builder for chaining.
      */
@@ -843,11 +759,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Detailed message or error if applicable
-     * </pre>
-     *
-     * <code>string message = 4;</code>
+     * <code>string message = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearMessage() {
@@ -857,11 +769,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Detailed message or error if applicable
-     * </pre>
-     *
-     * <code>string message = 4;</code>
+     * <code>string message = 3;</code>
      * @param value The bytes for message to set.
      * @return This builder for chaining.
      */
@@ -877,7 +785,7 @@ private static final long serialVersionUID = 0L;
 
     private boolean success_ ;
     /**
-     * <code>bool success = 5;</code>
+     * <code>bool success = 4;</code>
      * @return The success.
      */
     @java.lang.Override
@@ -885,7 +793,7 @@ private static final long serialVersionUID = 0L;
       return success_;
     }
     /**
-     * <code>bool success = 5;</code>
+     * <code>bool success = 4;</code>
      * @param value The success to set.
      * @return This builder for chaining.
      */
@@ -897,7 +805,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>bool success = 5;</code>
+     * <code>bool success = 4;</code>
      * @return This builder for chaining.
      */
     public Builder clearSuccess() {

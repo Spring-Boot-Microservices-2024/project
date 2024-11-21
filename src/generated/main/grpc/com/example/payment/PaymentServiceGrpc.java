@@ -3,9 +3,6 @@ package com.example.payment;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
- * <pre>
- * Define the PaymentService service
- * </pre>
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.58.0)",
@@ -125,16 +122,10 @@ public final class PaymentServiceGrpc {
   }
 
   /**
-   * <pre>
-   * Define the PaymentService service
-   * </pre>
    */
   public interface AsyncService {
 
     /**
-     * <pre>
-     * Unary RPC method to process a payment
-     * </pre>
      */
     default void processPayment(com.example.payment.PaymentRequest request,
         io.grpc.stub.StreamObserver<com.example.payment.PaymentResponse> responseObserver) {
@@ -142,9 +133,6 @@ public final class PaymentServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Bidirectional streaming RPC method to handle payment updates and cancellations
-     * </pre>
      */
     default io.grpc.stub.StreamObserver<com.example.payment.PaymentReturnRequest> streamPaymentReturn(
         io.grpc.stub.StreamObserver<com.example.payment.PaymentReturnResponse> responseObserver) {
@@ -154,9 +142,6 @@ public final class PaymentServiceGrpc {
 
   /**
    * Base class for the server implementation of the service PaymentService.
-   * <pre>
-   * Define the PaymentService service
-   * </pre>
    */
   public static abstract class PaymentServiceImplBase
       implements io.grpc.BindableService, AsyncService {
@@ -168,9 +153,6 @@ public final class PaymentServiceGrpc {
 
   /**
    * A stub to allow clients to do asynchronous rpc calls to service PaymentService.
-   * <pre>
-   * Define the PaymentService service
-   * </pre>
    */
   public static final class PaymentServiceStub
       extends io.grpc.stub.AbstractAsyncStub<PaymentServiceStub> {
@@ -186,9 +168,6 @@ public final class PaymentServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC method to process a payment
-     * </pre>
      */
     public void processPayment(com.example.payment.PaymentRequest request,
         io.grpc.stub.StreamObserver<com.example.payment.PaymentResponse> responseObserver) {
@@ -197,9 +176,6 @@ public final class PaymentServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Bidirectional streaming RPC method to handle payment updates and cancellations
-     * </pre>
      */
     public io.grpc.stub.StreamObserver<com.example.payment.PaymentReturnRequest> streamPaymentReturn(
         io.grpc.stub.StreamObserver<com.example.payment.PaymentReturnResponse> responseObserver) {
@@ -210,9 +186,6 @@ public final class PaymentServiceGrpc {
 
   /**
    * A stub to allow clients to do synchronous rpc calls to service PaymentService.
-   * <pre>
-   * Define the PaymentService service
-   * </pre>
    */
   public static final class PaymentServiceBlockingStub
       extends io.grpc.stub.AbstractBlockingStub<PaymentServiceBlockingStub> {
@@ -228,9 +201,6 @@ public final class PaymentServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC method to process a payment
-     * </pre>
      */
     public com.example.payment.PaymentResponse processPayment(com.example.payment.PaymentRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
@@ -240,9 +210,6 @@ public final class PaymentServiceGrpc {
 
   /**
    * A stub to allow clients to do ListenableFuture-style rpc calls to service PaymentService.
-   * <pre>
-   * Define the PaymentService service
-   * </pre>
    */
   public static final class PaymentServiceFutureStub
       extends io.grpc.stub.AbstractFutureStub<PaymentServiceFutureStub> {
@@ -258,9 +225,6 @@ public final class PaymentServiceGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC method to process a payment
-     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.payment.PaymentResponse> processPayment(
         com.example.payment.PaymentRequest request) {

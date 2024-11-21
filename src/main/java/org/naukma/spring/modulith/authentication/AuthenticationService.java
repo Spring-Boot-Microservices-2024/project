@@ -34,7 +34,7 @@ public class AuthenticationService {
 
         UserDto user = userService.getUserForAuth(email, password);
 
-        System.out.println("User: " + user);
+        log.info("User: " + user);
 
         if (user == null)
             return Optional.empty();

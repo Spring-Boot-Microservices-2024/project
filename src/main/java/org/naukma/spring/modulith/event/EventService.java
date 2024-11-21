@@ -30,6 +30,7 @@ public class EventService {
     private final UserService userService;
 
     private final PaymentGrpcClient paymentGrpcClient;
+    private static final Random RANDOM = new Random();
 
     public List<EventDto> getAll() {
         return eventRepository.findAll().stream().map(EventMapper.INSTANCE::entityToDto).toList();
@@ -90,7 +91,7 @@ public class EventService {
         List<RefundData> refunds = new ArrayList<>();
 
         for (UserDto user : participants) {
-            long paymentId = new Random().nextLong();
+            long paymentId = RANDOM.nextLong();
             String timestamp = java.time.Instant.now().toString();
 
             refunds.add(new RefundData(paymentId, refundSum, timestamp));

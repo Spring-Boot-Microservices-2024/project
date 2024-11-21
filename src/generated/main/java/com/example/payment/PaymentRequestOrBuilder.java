@@ -8,49 +8,29 @@ public interface PaymentRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <pre>
-   * User identifier
-   * </pre>
-   *
    * <code>int64 user_id = 1;</code>
    * @return The userId.
    */
   long getUserId();
 
   /**
-   * <pre>
-   * Event identifier for the payment
-   * </pre>
-   *
    * <code>int64 event_id = 2;</code>
    * @return The eventId.
    */
   long getEventId();
 
   /**
-   * <pre>
-   * Payment amount
-   * </pre>
-   *
    * <code>float price = 3;</code>
    * @return The price.
    */
   float getPrice();
 
   /**
-   * <pre>
-   * Payment method (e.g., credit card, PayPal)
-   * </pre>
-   *
    * <code>string payment_method = 4;</code>
    * @return The paymentMethod.
    */
   java.lang.String getPaymentMethod();
   /**
-   * <pre>
-   * Payment method (e.g., credit card, PayPal)
-   * </pre>
-   *
    * <code>string payment_method = 4;</code>
    * @return The bytes for paymentMethod.
    */
@@ -58,19 +38,11 @@ public interface PaymentRequestOrBuilder extends
       getPaymentMethodBytes();
 
   /**
-   * <pre>
-   * Timestamp of the payment initiation
-   * </pre>
-   *
    * <code>string timestamp = 5;</code>
    * @return The timestamp.
    */
   java.lang.String getTimestamp();
   /**
-   * <pre>
-   * Timestamp of the payment initiation
-   * </pre>
-   *
    * <code>string timestamp = 5;</code>
    * @return The bytes for timestamp.
    */

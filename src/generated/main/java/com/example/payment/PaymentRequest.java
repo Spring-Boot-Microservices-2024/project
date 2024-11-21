@@ -4,10 +4,6 @@
 package com.example.payment;
 
 /**
- * <pre>
- * Define the PaymentRequest message
- * </pre>
- *
  * Protobuf type {@code PaymentRequest}
  */
 public final class PaymentRequest extends
@@ -47,10 +43,6 @@ private static final long serialVersionUID = 0L;
   public static final int USER_ID_FIELD_NUMBER = 1;
   private long userId_ = 0L;
   /**
-   * <pre>
-   * User identifier
-   * </pre>
-   *
    * <code>int64 user_id = 1;</code>
    * @return The userId.
    */
@@ -62,10 +54,6 @@ private static final long serialVersionUID = 0L;
   public static final int EVENT_ID_FIELD_NUMBER = 2;
   private long eventId_ = 0L;
   /**
-   * <pre>
-   * Event identifier for the payment
-   * </pre>
-   *
    * <code>int64 event_id = 2;</code>
    * @return The eventId.
    */
@@ -77,10 +65,6 @@ private static final long serialVersionUID = 0L;
   public static final int PRICE_FIELD_NUMBER = 3;
   private float price_ = 0F;
   /**
-   * <pre>
-   * Payment amount
-   * </pre>
-   *
    * <code>float price = 3;</code>
    * @return The price.
    */
@@ -93,10 +77,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object paymentMethod_ = "";
   /**
-   * <pre>
-   * Payment method (e.g., credit card, PayPal)
-   * </pre>
-   *
    * <code>string payment_method = 4;</code>
    * @return The paymentMethod.
    */
@@ -114,10 +94,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Payment method (e.g., credit card, PayPal)
-   * </pre>
-   *
    * <code>string payment_method = 4;</code>
    * @return The bytes for paymentMethod.
    */
@@ -140,10 +116,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object timestamp_ = "";
   /**
-   * <pre>
-   * Timestamp of the payment initiation
-   * </pre>
-   *
    * <code>string timestamp = 5;</code>
    * @return The timestamp.
    */
@@ -161,10 +133,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Timestamp of the payment initiation
-   * </pre>
-   *
    * <code>string timestamp = 5;</code>
    * @return The bytes for timestamp.
    */
@@ -387,10 +355,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Define the PaymentRequest message
-   * </pre>
-   *
    * Protobuf type {@code PaymentRequest}
    */
   public static final class Builder extends
@@ -612,10 +576,6 @@ private static final long serialVersionUID = 0L;
 
     private long userId_ ;
     /**
-     * <pre>
-     * User identifier
-     * </pre>
-     *
      * <code>int64 user_id = 1;</code>
      * @return The userId.
      */
@@ -624,10 +584,6 @@ private static final long serialVersionUID = 0L;
       return userId_;
     }
     /**
-     * <pre>
-     * User identifier
-     * </pre>
-     *
      * <code>int64 user_id = 1;</code>
      * @param value The userId to set.
      * @return This builder for chaining.
@@ -640,10 +596,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * User identifier
-     * </pre>
-     *
      * <code>int64 user_id = 1;</code>
      * @return This builder for chaining.
      */
@@ -656,10 +608,6 @@ private static final long serialVersionUID = 0L;
 
     private long eventId_ ;
     /**
-     * <pre>
-     * Event identifier for the payment
-     * </pre>
-     *
      * <code>int64 event_id = 2;</code>
      * @return The eventId.
      */
@@ -668,10 +616,6 @@ private static final long serialVersionUID = 0L;
       return eventId_;
     }
     /**
-     * <pre>
-     * Event identifier for the payment
-     * </pre>
-     *
      * <code>int64 event_id = 2;</code>
      * @param value The eventId to set.
      * @return This builder for chaining.
@@ -684,10 +628,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Event identifier for the payment
-     * </pre>
-     *
      * <code>int64 event_id = 2;</code>
      * @return This builder for chaining.
      */
@@ -700,10 +640,6 @@ private static final long serialVersionUID = 0L;
 
     private float price_ ;
     /**
-     * <pre>
-     * Payment amount
-     * </pre>
-     *
      * <code>float price = 3;</code>
      * @return The price.
      */
@@ -712,10 +648,6 @@ private static final long serialVersionUID = 0L;
       return price_;
     }
     /**
-     * <pre>
-     * Payment amount
-     * </pre>
-     *
      * <code>float price = 3;</code>
      * @param value The price to set.
      * @return This builder for chaining.
@@ -728,10 +660,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Payment amount
-     * </pre>
-     *
      * <code>float price = 3;</code>
      * @return This builder for chaining.
      */
@@ -744,10 +672,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object paymentMethod_ = "";
     /**
-     * <pre>
-     * Payment method (e.g., credit card, PayPal)
-     * </pre>
-     *
      * <code>string payment_method = 4;</code>
      * @return The paymentMethod.
      */
@@ -764,10 +688,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Payment method (e.g., credit card, PayPal)
-     * </pre>
-     *
      * <code>string payment_method = 4;</code>
      * @return The bytes for paymentMethod.
      */
@@ -785,10 +705,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Payment method (e.g., credit card, PayPal)
-     * </pre>
-     *
      * <code>string payment_method = 4;</code>
      * @param value The paymentMethod to set.
      * @return This builder for chaining.
@@ -802,10 +718,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Payment method (e.g., credit card, PayPal)
-     * </pre>
-     *
      * <code>string payment_method = 4;</code>
      * @return This builder for chaining.
      */
@@ -816,10 +728,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Payment method (e.g., credit card, PayPal)
-     * </pre>
-     *
      * <code>string payment_method = 4;</code>
      * @param value The bytes for paymentMethod to set.
      * @return This builder for chaining.
@@ -836,10 +744,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object timestamp_ = "";
     /**
-     * <pre>
-     * Timestamp of the payment initiation
-     * </pre>
-     *
      * <code>string timestamp = 5;</code>
      * @return The timestamp.
      */
@@ -856,10 +760,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Timestamp of the payment initiation
-     * </pre>
-     *
      * <code>string timestamp = 5;</code>
      * @return The bytes for timestamp.
      */
@@ -877,10 +777,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Timestamp of the payment initiation
-     * </pre>
-     *
      * <code>string timestamp = 5;</code>
      * @param value The timestamp to set.
      * @return This builder for chaining.
@@ -894,10 +790,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Timestamp of the payment initiation
-     * </pre>
-     *
      * <code>string timestamp = 5;</code>
      * @return This builder for chaining.
      */
@@ -908,10 +800,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Timestamp of the payment initiation
-     * </pre>
-     *
      * <code>string timestamp = 5;</code>
      * @param value The bytes for timestamp to set.
      * @return This builder for chaining.

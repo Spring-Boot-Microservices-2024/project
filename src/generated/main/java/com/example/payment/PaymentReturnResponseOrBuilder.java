@@ -8,19 +8,11 @@ public interface PaymentReturnResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <pre>
-   * Unique identifier for the update
-   * </pre>
-   *
    * <code>string payment_id = 1;</code>
    * @return The paymentId.
    */
   java.lang.String getPaymentId();
   /**
-   * <pre>
-   * Unique identifier for the update
-   * </pre>
-   *
    * <code>string payment_id = 1;</code>
    * @return The bytes for paymentId.
    */
@@ -28,47 +20,31 @@ public interface PaymentReturnResponseOrBuilder extends
       getPaymentIdBytes();
 
   /**
-   * <pre>
-   * Timestamp of the update
-   * </pre>
-   *
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 2;</code>
    * @return The timestamp.
    */
   java.lang.String getTimestamp();
   /**
-   * <pre>
-   * Timestamp of the update
-   * </pre>
-   *
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 2;</code>
    * @return The bytes for timestamp.
    */
   com.google.protobuf.ByteString
       getTimestampBytes();
 
   /**
-   * <pre>
-   * Detailed message or error if applicable
-   * </pre>
-   *
-   * <code>string message = 4;</code>
+   * <code>string message = 3;</code>
    * @return The message.
    */
   java.lang.String getMessage();
   /**
-   * <pre>
-   * Detailed message or error if applicable
-   * </pre>
-   *
-   * <code>string message = 4;</code>
+   * <code>string message = 3;</code>
    * @return The bytes for message.
    */
   com.google.protobuf.ByteString
       getMessageBytes();
 
   /**
-   * <code>bool success = 5;</code>
+   * <code>bool success = 4;</code>
    * @return The success.
    */
   boolean getSuccess();

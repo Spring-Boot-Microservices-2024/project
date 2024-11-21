@@ -4,10 +4,6 @@
 package com.example.payment;
 
 /**
- * <pre>
- * Define the PaymentRequest message
- * </pre>
- *
  * Protobuf type {@code PaymentReturnRequest}
  */
 public final class PaymentReturnRequest extends
@@ -286,10 +282,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Define the PaymentRequest message
-   * </pre>
-   *
    * Protobuf type {@code PaymentReturnRequest}
    */
   public static final class Builder extends

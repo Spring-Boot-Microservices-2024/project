@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(BookingController.class)
-public class BookingSecurityTest {
+class BookingSecurityTest {
 
     @Autowired
     private MockMvc mockMvc;

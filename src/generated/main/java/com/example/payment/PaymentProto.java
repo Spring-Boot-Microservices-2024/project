@@ -51,7 +51,7 @@ public final class PaymentProto {
       "est\022\022\n\npayment_id\030\001 \001(\003\022\022\n\nrefund_sum\030\002 " +
       "\001(\002\022\021\n\ttimestamp\030\003 \001(\t\"`\n\025PaymentReturnR" +
       "esponse\022\022\n\npayment_id\030\001 \001(\t\022\021\n\ttimestamp" +
-      "\030\003 \001(\t\022\017\n\007message\030\004 \001(\t\022\017\n\007success\030\005 \001(\010" +
+      "\030\002 \001(\t\022\017\n\007message\030\003 \001(\t\022\017\n\007success\030\004 \001(\010" +
       "2\217\001\n\016PaymentService\0223\n\016ProcessPayment\022\017." +
       "PaymentRequest\032\020.PaymentResponse\022H\n\023Stre" +
       "amPaymentReturn\022\025.PaymentReturnRequest\032\026" +

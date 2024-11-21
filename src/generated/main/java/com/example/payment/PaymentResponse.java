@@ -4,10 +4,6 @@
 package com.example.payment;
 
 /**
- * <pre>
- * Define the PaymentResponse message
- * </pre>
- *
  * Protobuf type {@code PaymentResponse}
  */
 public final class PaymentResponse extends
@@ -46,10 +42,6 @@ private static final long serialVersionUID = 0L;
   public static final int SUCCESS_FIELD_NUMBER = 1;
   private boolean success_ = false;
   /**
-   * <pre>
-   * Indicates if the payment was successful
-   * </pre>
-   *
    * <code>bool success = 1;</code>
    * @return The success.
    */
@@ -62,10 +54,6 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object message_ = "";
   /**
-   * <pre>
-   * Message with details, e.g., payment confirmation
-   * </pre>
-   *
    * <code>string message = 2;</code>
    * @return The message.
    */
@@ -83,10 +71,6 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <pre>
-   * Message with details, e.g., payment confirmation
-   * </pre>
-   *
    * <code>string message = 2;</code>
    * @return The bytes for message.
    */
@@ -274,10 +258,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Define the PaymentResponse message
-   * </pre>
-   *
    * Protobuf type {@code PaymentResponse}
    */
   public static final class Builder extends
@@ -461,10 +441,6 @@ private static final long serialVersionUID = 0L;
 
     private boolean success_ ;
     /**
-     * <pre>
-     * Indicates if the payment was successful
-     * </pre>
-     *
      * <code>bool success = 1;</code>
      * @return The success.
      */
@@ -473,10 +449,6 @@ private static final long serialVersionUID = 0L;
       return success_;
     }
     /**
-     * <pre>
-     * Indicates if the payment was successful
-     * </pre>
-     *
      * <code>bool success = 1;</code>
      * @param value The success to set.
      * @return This builder for chaining.
@@ -489,10 +461,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Indicates if the payment was successful
-     * </pre>
-     *
      * <code>bool success = 1;</code>
      * @return This builder for chaining.
      */
@@ -505,10 +473,6 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object message_ = "";
     /**
-     * <pre>
-     * Message with details, e.g., payment confirmation
-     * </pre>
-     *
      * <code>string message = 2;</code>
      * @return The message.
      */
@@ -525,10 +489,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Message with details, e.g., payment confirmation
-     * </pre>
-     *
      * <code>string message = 2;</code>
      * @return The bytes for message.
      */
@@ -546,10 +506,6 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <pre>
-     * Message with details, e.g., payment confirmation
-     * </pre>
-     *
      * <code>string message = 2;</code>
      * @param value The message to set.
      * @return This builder for chaining.
@@ -563,10 +519,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Message with details, e.g., payment confirmation
-     * </pre>
-     *
      * <code>string message = 2;</code>
      * @return This builder for chaining.
      */
@@ -577,10 +529,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <pre>
-     * Message with details, e.g., payment confirmation
-     * </pre>
-     *
      * <code>string message = 2;</code>
      * @param value The bytes for message to set.
      * @return This builder for chaining.
