@@ -110,10 +110,10 @@ public class EventService {
         event.getParticipants().add(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
 
-        if (event.getPrice() > 0) {
-            String message = processPaymentForEvent(EventMapper.INSTANCE.entityToDto(event));
-            return "Registration for event: " + message;
-        }
+//        if (event.getPrice() > 0) {
+//            String message = processPaymentForEvent(EventMapper.INSTANCE.entityToDto(event));
+//            return "Registration for event: " + message;
+//        }
 
         return "User registered for the event successfully!";
     }
@@ -139,10 +139,10 @@ public class EventService {
         event.getParticipants().remove(UserMapper.INSTANCE.dtoToEntity(user));
         eventRepository.save(event);
 
-        if (event.getPrice() > 0) {
-            returnPayment(List.of(user), event.getPrice());
-            return "User unregistered from the event successfully! Refund started, check logs for update";
-        }
+//        if (event.getPrice() > 0) {
+//            returnPayment(List.of(user), event.getPrice());
+//            return "User unregistered from the event successfully! Refund started, check logs for update";
+//        }
 
         return "User unregistered from the event successfully!";
     }
@@ -186,6 +186,6 @@ public class EventService {
     }
 
     public List<EventDto> getEventsForPeriod(LocalDateTime startDate, LocalDateTime endDate) {
-        return eventRepository.findAllByDateTimeBetween(startDate, endDate).stream().map(EventMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+        return eventRepository.findAllByDateTimeBetween(startDate, endDate).stream().map(EventMapper.INSTANCE::entityToDto).toList();
     }
 }

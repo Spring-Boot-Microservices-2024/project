@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+/documentation/module-authentication.puml
+/documentation/module-email.puml
+/documentation/module-payment.puml
